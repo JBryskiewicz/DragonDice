@@ -1,4 +1,4 @@
-package pl.coderslab.dragondice.service;
+package pl.coderslab.dragondice.service.user;
 
 import pl.coderslab.dragondice.domain.User;
 

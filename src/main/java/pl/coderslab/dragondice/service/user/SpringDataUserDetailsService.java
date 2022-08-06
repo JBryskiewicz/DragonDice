@@ -1,4 +1,4 @@
-package pl.coderslab.dragondice.service;
+package pl.coderslab.dragondice.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

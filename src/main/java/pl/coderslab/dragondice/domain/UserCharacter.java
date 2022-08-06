@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "user_characters")
+@Table(name = "playable_characters")
 @Setter
 @Getter
 @ToString
@@ -15,23 +15,23 @@ import java.util.List;
 public class UserCharacter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private int charLevel;
-    private String charName;
-    private int charAge;
-    private String charAlignment;
-    private String backstory;
-    private int strAbility;
-    private int dexAbility;
-    private int conAbility;
-    private int intAbility;
-    private int wisAbility;
-    private int chaAbility;
+    private long id;                    //automatic
+    private int charLevel;              //done
+    private String charName;            //done
+    private int charAge;                //done
+    private String charAlignment;       //done
+    private String backstory;           //done
+    private int strAbility;             //done
+    private int dexAbility;             //done
+    private int conAbility;             //done
+    private int intAbility;             //done
+    private int wisAbility;             //done
+    private int chaAbility;             //done
     @ManyToOne
-    private Race race;
+    private Race race;                  //done
     @ManyToOne
-    private Background background;
+    private Background background;      //done
     @ManyToMany
-    private List<Feats> feats;
+    private List<Feats> feats;          //done
 
 }
