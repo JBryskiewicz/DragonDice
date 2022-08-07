@@ -1,4 +1,4 @@
-package pl.coderslab.dragondice.service.feats.userCharacter;
+package pl.coderslab.dragondice.service.userCharacter;
 
 import org.springframework.stereotype.Service;
 import pl.coderslab.dragondice.domain.UserCharacter;

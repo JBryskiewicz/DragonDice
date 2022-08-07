@@ -3,34 +3,38 @@ package pl.coderslab.dragondice.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
 import pl.coderslab.dragondice.domain.UserCharacter;
 import pl.coderslab.dragondice.repository.BackgroundRepository;
 import pl.coderslab.dragondice.repository.FeatRepository;
 import pl.coderslab.dragondice.repository.RaceRepository;
 import pl.coderslab.dragondice.repository.UserCharacterRepository;
+import pl.coderslab.dragondice.service.userCharacter.UserCharacterService;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/app")
 public class AppController {
-
     private final UserCharacterRepository userCharacterRepository;
     private final RaceRepository raceRepository;
     private final FeatRepository featRepository;
     private final BackgroundRepository backgroundRepository;
 
+    private final UserCharacterService userCharacterService;
+
+    private ModifiersDefiner modifiersDefiner;
+
     public AppController(UserCharacterRepository userCharacterRepository,
                          RaceRepository raceRepository, FeatRepository featRepository,
-                         BackgroundRepository backgroundRepository) {
+                         BackgroundRepository backgroundRepository, UserCharacterService userCharacterService) {
 
         this.userCharacterRepository = userCharacterRepository;
         this.raceRepository = raceRepository;
         this.featRepository = featRepository;
         this.backgroundRepository = backgroundRepository;
+        this.userCharacterService = userCharacterService;
     }
+
     //TODO Remember to remake this method once there's session for findAll to include user ID, so it shows only
     // Specific user's characters!!!
     @GetMapping("/select")
@@ -43,7 +47,7 @@ public class AppController {
     public String charSheet(Model model, @PathVariable long id){
         Optional<UserCharacter> userCharacter = userCharacterRepository.findById(id);
         model.addAttribute("userCharacter", userCharacter.get());
-        System.out.println(userCharacter);
+        //int x = modifiersDefiner.dexModifier(userCharacter.get().getDexAbility());
         return "/app/characterSheet";
     }
 
@@ -57,10 +61,9 @@ public class AppController {
         return "/app/characterCreator";
     }
 
-
     @PostMapping("/character-creator-result")
     public String charCreatorResult(UserCharacter userCharacter){
-        userCharacterRepository.save(userCharacter);
+        userCharacterService.saveUserCharacter(userCharacter);
         return "redirect:/app/select";
     }
 }
