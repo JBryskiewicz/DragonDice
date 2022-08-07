@@ -57,16 +57,10 @@ public class AppController {
         return "/app/characterCreator";
     }
 
-     //TODO: Fix unnecessary Get Mapping
-     @GetMapping("/character-creator-result")
-     public String charCreatorResultGet(UserCharacter userCharacter){
+
+    @PostMapping("/character-creator-result")
+    public String charCreatorResult(UserCharacter userCharacter){
         userCharacterRepository.save(userCharacter);
         return "redirect:/app/select";
     }
-
-//    @PostMapping("/character-creator-result")
-//    public String charCreatorResult(UserCharacter userCharacter){
-//        userCharacterRepository.save(userCharacter);
-//        return "redirect:/app/select";
-//    }
 }

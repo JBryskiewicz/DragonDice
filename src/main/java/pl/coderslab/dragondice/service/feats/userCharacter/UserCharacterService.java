@@ -1,4 +1,4 @@
-package pl.coderslab.dragondice.service.userCharacter;
+package pl.coderslab.dragondice.service.feats.userCharacter;
 
 import pl.coderslab.dragondice.domain.UserCharacter;
 
