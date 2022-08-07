@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dragondice.domain.UserCharacter;
+import pl.coderslab.dragondice.mechanics.ModifiersDefiner;
 import pl.coderslab.dragondice.repository.BackgroundRepository;
 import pl.coderslab.dragondice.repository.FeatRepository;
 import pl.coderslab.dragondice.repository.RaceRepository;
@@ -19,10 +20,7 @@ public class AppController {
     private final RaceRepository raceRepository;
     private final FeatRepository featRepository;
     private final BackgroundRepository backgroundRepository;
-
     private final UserCharacterService userCharacterService;
-
-    private ModifiersDefiner modifiersDefiner;
 
     public AppController(UserCharacterRepository userCharacterRepository,
                          RaceRepository raceRepository, FeatRepository featRepository,
@@ -46,14 +44,37 @@ public class AppController {
     @GetMapping("/character-sheet/{id}")
     public String charSheet(Model model, @PathVariable long id){
         Optional<UserCharacter> userCharacter = userCharacterRepository.findById(id);
+
         model.addAttribute("userCharacter", userCharacter.get());
-        //int x = modifiersDefiner.dexModifier(userCharacter.get().getDexAbility());
+
+        model.addAttribute("strMod",
+                ModifiersDefiner.abilityModifier(userCharacter.get().getStrAbility()));
+        model.addAttribute("dexMod",
+                ModifiersDefiner.abilityModifier(userCharacter.get().getDexAbility()));
+        model.addAttribute("conMod",
+                ModifiersDefiner.abilityModifier(userCharacter.get().getConAbility()));
+        model.addAttribute("intMod",
+                ModifiersDefiner.abilityModifier(userCharacter.get().getIntAbility()));
+        model.addAttribute("wisMod",
+                ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()));
+        model.addAttribute("chaMod",
+                ModifiersDefiner.abilityModifier(userCharacter.get().getChaAbility()));
+
+        model.addAttribute("armorClass",
+                10 + ModifiersDefiner.abilityModifier(userCharacter.get().getDexAbility()));
+
+        model.addAttribute("passivePerception",
+                10 + ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()));
+        model.addAttribute("passiveInvestigation",
+                10 + ModifiersDefiner.abilityModifier(userCharacter.get().getIntAbility()));
+        model.addAttribute("passiveInsight",
+                10 + ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()));
+
         return "/app/characterSheet";
     }
 
     @GetMapping("/character-creator")
     public String charCreator(Model model){
-        System.out.println("Hello");
         model.addAttribute("Race", raceRepository.findAll());
         model.addAttribute("Feats", featRepository.findAll());
         model.addAttribute("Background", backgroundRepository.findAll());

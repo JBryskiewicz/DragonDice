@@ -21,6 +21,8 @@ public class UserCharacter {
     private int charAge;                //done
     private String charAlignment;       //done
     private String backstory;           //done
+    private int proficiency;            //done
+    private int expertise;              //done
     private int strAbility;             //done
     private int dexAbility;             //done
     private int conAbility;             //done
@@ -33,5 +35,4 @@ public class UserCharacter {
     private Background background;      //done
     @ManyToMany
     private List<Feats> feats;          //done
-
 }
