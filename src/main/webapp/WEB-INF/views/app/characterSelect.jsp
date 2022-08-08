@@ -98,9 +98,10 @@
 
 
         <!-- Character Window Start -->
-        <c:forEach items="${userCharacter}" var="character">
+
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
+                <c:forEach items="${userCharacter}" var="character">
                 <div class="col-sm-12 col-md-6 col-xl-4">
                     <div class="h-100 bg-secondary rounded p-4">
                         <div class="d-flex align-items-center border-bottom py-3">
@@ -110,21 +111,22 @@
                                     <h6 class="mb-0">${character.charName}</h6>
                                 </div>
                                 <span>Level: ${character.charLevel}</span><br/>
-                                <span>Race: ${character.race}</span><br/>
+                                <span>Race: ${character.race.raceName}</span><br/>
                                 <span>Class: Rogue / Scout</span>
 
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <a href="/app/character-sheet/${character.id}">view</a>
-                                    <a href="#">edit</a>
-                                    <a href="#">delete</a>
+                                    <a href="/app/character-editor/${character.id}">edit</a>
+                                    <a href="/app/character-delete/${character.id}">delete</a>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
+                </c:forEach>
             </div>
-            </c:forEach>
+        </div>
+
             <!-- Character Window End -->
 
 
@@ -144,7 +146,7 @@
                 </div>
             </div>
             <!-- Footer End -->
-        </div>
+    </div>
         <!-- Content End -->
 
 

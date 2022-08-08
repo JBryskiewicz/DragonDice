@@ -103,7 +103,7 @@
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-secondary rounded h-100 p-4">
 
-                        <form action="/app/character-creator-result" method="get">
+                        <form action="/app/character-editor-result" method="get">
 
                             <div class="bg-secondary rounded h-100 p-4"><h6>Select Ability Score</h6>
                                 <table class="table table-borderless">
@@ -121,7 +121,8 @@
                                     <tr>
                                         <td><div class="form-floating mb-3">
                                             <select name="strAbility" aria-label="Floating label select example">
-                                                <option selected value="8">8 (-1)</option>
+                                                <option selected value="${userCharacter.strAbility}">${userCharacter.strAbility}</option>
+                                                <option value="8">8 (-1)</option>
                                                 <option value="9">9 (-1)</option>
                                                 <option value="10">10 (+0)</option>
                                                 <option value="11">11 (+0)</option>
@@ -133,7 +134,8 @@
                                         </div></td>
                                         <td><div class="form-floating mb-3">
                                             <select name="dexAbility" aria-label="Floating label select example">
-                                                <option selected value="8">8 (-1)</option>
+                                                <option selected value="${userCharacter.dexAbility}">${userCharacter.dexAbility}</option>
+                                                <option value="8">8 (-1)</option>
                                                 <option value="9">9 (-1)</option>
                                                 <option value="10">10 (+0)</option>
                                                 <option value="11">11 (+0)</option>
@@ -145,7 +147,8 @@
                                         </div></td>
                                         <td><div class="form-floating mb-3">
                                             <select name="conAbility" aria-label="Floating label select example">
-                                                <option selected value="8">8 (-1)</option>
+                                                <option selected value="${userCharacter.conAbility}">${userCharacter.conAbility}</option>
+                                                <option value="8">8 (-1)</option>
                                                 <option value="9">9 (-1)</option>
                                                 <option value="10">10 (+0)</option>
                                                 <option value="11">11 (+0)</option>
@@ -157,7 +160,8 @@
                                         </div></td>
                                         <td><div class="form-floating mb-3">
                                             <select name="intAbility" aria-label="Floating label select example">
-                                                <option selected value="8">8 (-1)</option>
+                                                <option selected value="${userCharacter.intAbility}">${userCharacter.intAbility}</option>
+                                                <option value="8">8 (-1)</option>
                                                 <option value="9">9 (-1)</option>
                                                 <option value="10">10 (+0)</option>
                                                 <option value="11">11 (+0)</option>
@@ -169,7 +173,8 @@
                                         </div></td>
                                         <td><div class="form-floating mb-3">
                                             <select name="wisAbility" aria-label="Floating label select example">
-                                                <option selected value="8">8 (-1)</option>
+                                                <option selected value="${userCharacter.wisAbility}">${userCharacter.wisAbility}</option>
+                                                <option value="8">8 (-1)</option>
                                                 <option value="9">9 (-1)</option>
                                                 <option value="10">10 (+0)</option>
                                                 <option value="11">11 (+0)</option>
@@ -181,7 +186,8 @@
                                         </div></td>
                                         <td><div class="form-floating mb-3">
                                             <select name="chaAbility" aria-label="Floating label select example">
-                                                <option selected value="8">8 (-1)</option>
+                                                <option selected value="${userCharacter.chaAbility}">${userCharacter.chaAbility}</option>
+                                                <option value="8">8 (-1)</option>
                                                 <option value="9">9 (-1)</option>
                                                 <option value="10">10 (+0)</option>
                                                 <option value="11">11 (+0)</option>
@@ -203,7 +209,7 @@
                                         <h6>Level</h6>
                                         <div class="form-floating mb-3">
                                             <select name="charLevel" aria-label="Floating label select example">
-                                                <option selected></option>
+                                                <option selected value="${userCharacter.charLevel}">${userCharacter.charLevel}</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -237,7 +243,7 @@
                             <div class="form-floating mb-3">
                                 <select name="race" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option selected></option>
+                                    <option selected value="${userCharacter.race.raceName}">${userCharacter.race.raceName}</option>
                                     <c:forEach items="${Race}" var="race">
                                     <option value="${race.id}">${race.raceName}</option>
                                     </c:forEach>
@@ -314,7 +320,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                        <button type="submit" class="btn btn-primary">Create</button>
+                            <input type="hidden" name="id" value="${userCharacter.id}">
+                            <input type="hidden" name="proficiency" value="3">
+                            <input type="hidden" name="expertise" value="6">
+                        <button type="submit" class="btn btn-primary">Edit Character</button>
                     </div>
                 </div>
                 <div class="col-sm-12 col-xl-6">
@@ -322,26 +331,26 @@
                         <div class="bg-secondary rounded h-100 p-4">
                             <div class="form-floating mb-3">
                                 <!-- !character name input! -->
-                                <input type="input" name="charName" class="form-control" id="floatingInput" placeholder="Character Name">
+                                <input type="input" name="charName" class="form-control" id="floatingInput"
+                                       placeholder="Character Name" value="${userCharacter.charName}">
                                 <label for="floatingInput">Character Name</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !character age input! -->
-                                <input type="input" name="charAge" class="form-control" id="floatingInput" placeholder="Character Age">
+                                <input type="input" name="charAge" class="form-control" id="floatingInput"
+                                       placeholder="Character Age" value="${userCharacter.charAge}">
                                 <label for="floatingInput">Character Age</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !character backstory input! -->
-                                <textarea class="form-control" name="backstory" placeholder="Backstory" id="floatingTextarea" style="height: 300px;"></textarea>
+                                <textarea class="form-control" name="backstory" placeholder="Backstory"
+                                          id="floatingTextarea" style="height: 300px;">${userCharacter.backstory}</textarea>
                                 <label for="floatingTextarea">Backstory</label>
                             </div>
-                            <input type="hidden" name="proficiency" value="3">
-                            <input type="hidden" name="expertise" value="6">
-
                             <div class="form-floating mb-3">
                                 <select name="charAlignment" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option selected></option>
+                                    <option selected value="${userCharacter.charAlignment}">${userCharacter.charAlignment}</option>
                                     <option value="Lawful Good">Lawful Good</option>
                                     <option value="Lawful Neutral">Lawful Neutral</option>
                                     <option value="Lawful Evil">Lawful Evil</option>
@@ -357,7 +366,7 @@
                             <div class="form-floating mb-3">
                                 <select name="background" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option selected></option>
+                                    <option selected value="${userCharacter.background.backgroundName}">${userCharacter.background.backgroundName}</option>
                                     <c:forEach items="${Background}" var="bGround">
                                     <option value="${bGround.id}">${bGround.backgroundName}</option>
                                     </c:forEach>

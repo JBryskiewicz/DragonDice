@@ -6,4 +6,6 @@ public interface UserCharacterService {
 
     void saveUserCharacter(UserCharacter userCharacter);
 
+    void editUserCharacter(UserCharacter userCharacter);
+
 }

@@ -14,7 +14,8 @@ import javax.persistence.*;
 public class Race {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String raceName;
     private String raceFeatures;
+    private int raceWalkingSpeed;
 }

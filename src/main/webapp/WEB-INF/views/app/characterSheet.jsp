@@ -142,7 +142,6 @@
                                 <thead>
                                 <tr>
                                     <!-- Hit points will be introduced with class update -->
-                                    <!-- Dynamic walking speed will be here with extension for race + class later -->
                                     <th scope="col">Proficiency</th><th scope="col">Walking</th><th scope="col">Hit Points</th>
                                     <th scope="col">Modify:</th>
                                     <th scope="col"><button type="button" class="btn btn-danger m-2">plus</button></th>
@@ -152,7 +151,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>${userCharacter.proficiency}</td><td>30ft</td><td>29 / 51</td>
+                                    <td>${userCharacter.proficiency}</td><td>${userCharacter.race.raceWalkingSpeed}ft</td><td>29 / 51</td>
                                     <td><form><input name="health" type="text" class="form-control"></form></td>
                                     <td></td><td></td><td>${armorClass}</td>
                                 </tr>

@@ -13,7 +13,7 @@ import lombok.*;
 public class Background {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
+        private long id;
         private String backgroundName;
         private String description;
 }

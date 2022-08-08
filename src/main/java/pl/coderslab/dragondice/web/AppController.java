@@ -2,7 +2,10 @@ package pl.coderslab.dragondice.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.dragondice.domain.Background;
+import pl.coderslab.dragondice.domain.Feats;
 import pl.coderslab.dragondice.domain.UserCharacter;
 import pl.coderslab.dragondice.mechanics.ModifiersDefiner;
 import pl.coderslab.dragondice.repository.BackgroundRepository;
@@ -11,6 +14,11 @@ import pl.coderslab.dragondice.repository.RaceRepository;
 import pl.coderslab.dragondice.repository.UserCharacterRepository;
 import pl.coderslab.dragondice.service.userCharacter.UserCharacterService;
 
+import javax.persistence.EntityManager;
+import javax.swing.text.html.Option;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -21,6 +29,8 @@ public class AppController {
     private final FeatRepository featRepository;
     private final BackgroundRepository backgroundRepository;
     private final UserCharacterService userCharacterService;
+
+    private final int baseTen = 10;
 
     public AppController(UserCharacterRepository userCharacterRepository,
                          RaceRepository raceRepository, FeatRepository featRepository,
@@ -61,14 +71,14 @@ public class AppController {
                 ModifiersDefiner.abilityModifier(userCharacter.get().getChaAbility()));
 
         model.addAttribute("armorClass",
-                10 + ModifiersDefiner.abilityModifier(userCharacter.get().getDexAbility()));
+                baseTen + ModifiersDefiner.abilityModifier(userCharacter.get().getDexAbility()));
 
         model.addAttribute("passivePerception",
-                10 + ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()));
+                baseTen + ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()));
         model.addAttribute("passiveInvestigation",
-                10 + ModifiersDefiner.abilityModifier(userCharacter.get().getIntAbility()));
+                baseTen + ModifiersDefiner.abilityModifier(userCharacter.get().getIntAbility()));
         model.addAttribute("passiveInsight",
-                10 + ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()));
+                baseTen + ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()));
 
         return "/app/characterSheet";
     }
@@ -82,9 +92,48 @@ public class AppController {
         return "/app/characterCreator";
     }
 
-    @PostMapping("/character-creator-result")
-    public String charCreatorResult(UserCharacter userCharacter){
+    @GetMapping("/character-creator-result")
+    public String charCreatorResult(UserCharacter userCharacter, @RequestParam String feats){
+        Optional<Feats> feat = featRepository.findById(Long.parseLong(feats));
+        List<Feats> featsList = new ArrayList<>();
+        featsList.add(feat.get());
         userCharacterService.saveUserCharacter(userCharacter);
         return "redirect:/app/select";
     }
+
+    @GetMapping("/character-editor/{id}")
+    public String charEdit(Model model, @PathVariable long id){
+        model.addAttribute("Race", raceRepository.findAll());
+        model.addAttribute("Feats", featRepository.findAll());
+        model.addAttribute("Background", backgroundRepository.findAll());
+        model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
+        return "/app/characterEditor";
+    }
+
+    @GetMapping("/character-editor-result")
+    public String charEditResult(Model model, UserCharacter userCharacter, BindingResult result, @RequestParam long id){
+        if (result.hasErrors()){
+            model.addAttribute("Race", raceRepository.findAll());
+            model.addAttribute("Feats", featRepository.findAll());
+            model.addAttribute("Background", backgroundRepository.findAll());
+            return "/app/characterEditor";
+        }
+        userCharacterService.editUserCharacter(userCharacter);
+        return "redirect:/app/select";
+    }
+
+    @GetMapping("/character-delete/{id}")
+    public String charDelete(Model model, @PathVariable long id){
+        model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
+        return "/app/characterDelete";
+    }
+    @GetMapping("/character-delete-result/{id}")
+    public String charDeleteResult(@PathVariable long id){
+        userCharacterRepository.deleteById(id);
+        return "redirect:/app/select";
+    }
+
+
+
+    //TODO Fetch JavaScript for "dice rolling".
 }

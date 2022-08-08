@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Feats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String featName;
     private String description;
 }
