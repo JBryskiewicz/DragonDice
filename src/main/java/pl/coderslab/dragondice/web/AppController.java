@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.dragondice.domain.Background;
 import pl.coderslab.dragondice.domain.Feats;
 import pl.coderslab.dragondice.domain.UserCharacter;
 import pl.coderslab.dragondice.mechanics.ModifiersDefiner;
@@ -14,10 +13,7 @@ import pl.coderslab.dragondice.repository.RaceRepository;
 import pl.coderslab.dragondice.repository.UserCharacterRepository;
 import pl.coderslab.dragondice.service.userCharacter.UserCharacterService;
 
-import javax.persistence.EntityManager;
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
