@@ -2,6 +2,18 @@
 
 <%@include file="_header_sidebars.jsp" %>
 
+        <!-- Character Info Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-secondary text-center rounded p-4">
+                <a style="color: #d41414; font-size: 20px;">Name: ${userCharacter.charName}</a>
+                <a>  |  </a>
+                <a style="color: #0d6efd; font-size: 20px;">Class: Rogue / Scout</a>
+                <a>  |  </a>
+                <a style="color: #d41414; font-size: 20px;">Level: ${userCharacter.charLevel}</a>
+            </div>
+        </div>
+        <!-- Character Info End -->
+
         <!-- Abilities block Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">

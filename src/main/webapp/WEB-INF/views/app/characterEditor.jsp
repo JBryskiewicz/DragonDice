@@ -149,17 +149,25 @@
                             <div class="form-floating mb-3">
                                 <select name="race" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option selected value="${userCharacter.race.raceName}">${userCharacter.race.raceName}</option>
+                                    <option selected value="${userCharacter.race.id}">${userCharacter.race.raceName}</option>
                                     <c:forEach items="${Race}" var="race">
                                     <option value="${race.id}">${race.raceName}</option>
                                     </c:forEach>
                                 </select>
                                 <label for="floatingSelect">Select your Race</label>
                             </div>
+                            <br/>
+                            <a style="color: #c1d6cc;">${userCharacter.charName}'s feats: </a>
+                            <c:forEach items="${userCharacter.feats}" var="feat">
+                            <a style="color:#c1d6cc;">${feat.featName}</a>
+                            </c:forEach>
+                            <br/>
+                            <a>${characterFeatId[0]}</a>
                             <div class="form-floating mb-3">
                                 <select name="feats" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option selected></option>
+                                    <option selected value="${characterFeatId[0]}">${characterFeatName}</option>
+
                                     <c:forEach items="${Feats}" var="feat">
                                     <option value="${feat.id}">${feat.featName}</option>
                                     </c:forEach>
@@ -230,6 +238,7 @@
                             <input type="hidden" name="proficiency" value="3">
                             <input type="hidden" name="expertise" value="6">
                         <button type="submit" class="btn btn-primary">Edit Character</button>
+                            <a style="color: #d41414">${errorMsg}</a>
                     </div>
                 </div>
                 <div class="col-sm-12 col-xl-6">
@@ -272,7 +281,7 @@
                             <div class="form-floating mb-3">
                                 <select name="background" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option selected value="${userCharacter.background.backgroundName}">${userCharacter.background.backgroundName}</option>
+                                    <option selected value="${userCharacter.background.id}">${userCharacter.background.backgroundName}</option>
                                     <c:forEach items="${Background}" var="bGround">
                                     <option value="${bGround.id}">${bGround.backgroundName}</option>
                                     </c:forEach>

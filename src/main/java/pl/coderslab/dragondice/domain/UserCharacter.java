@@ -1,7 +1,9 @@
 package pl.coderslab.dragondice.domain;
 
-import javax.persistence.*;;
+import javax.persistence.*;
+import javax.validation.constraints.Size;;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -20,15 +22,19 @@ public class UserCharacter {
     private String charName;            //done
     private int charAge;                //done
     private String charAlignment;       //done
+    @Size(max = 2000)
     private String backstory;           //done
+
     private int proficiency;            //done
     private int expertise;              //done
+
     private int strAbility;             //done
     private int dexAbility;             //done
     private int conAbility;             //done
     private int intAbility;             //done
     private int wisAbility;             //done
     private int chaAbility;             //done
+
     @ManyToOne
     private Race race;                  //done
     @ManyToOne

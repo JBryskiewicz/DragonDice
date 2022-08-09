@@ -13,9 +13,11 @@ import pl.coderslab.dragondice.repository.RaceRepository;
 import pl.coderslab.dragondice.repository.UserCharacterRepository;
 import pl.coderslab.dragondice.service.userCharacter.UserCharacterService;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/app")
@@ -27,6 +29,7 @@ public class AppController {
     private final UserCharacterService userCharacterService;
 
     private final int baseTen = 10;
+    private final String CharacterDataErrorMsg = "Please, fill your character's data properly :)";
 
     public AppController(UserCharacterRepository userCharacterRepository,
                          RaceRepository raceRepository, FeatRepository featRepository,
@@ -88,12 +91,30 @@ public class AppController {
         return "/app/characterCreator";
     }
 
+    @GetMapping("/character-creator-correction")
+    public String charCreatorWithError(Model model){
+        model.addAttribute("Race", raceRepository.findAll());
+        model.addAttribute("Feats", featRepository.findAll());
+        model.addAttribute("Background", backgroundRepository.findAll());
+        model.addAttribute("userCharacter", new UserCharacter());
+        model.addAttribute("errorMsg", CharacterDataErrorMsg);
+        return "/app/characterCreator";
+    }
+
     @GetMapping("/character-creator-result")
-    public String charCreatorResult(UserCharacter userCharacter, @RequestParam String feats){
-        Optional<Feats> feat = featRepository.findById(Long.parseLong(feats));
-        List<Feats> featsList = new ArrayList<>();
-        featsList.add(feat.get());
-        userCharacterService.saveUserCharacter(userCharacter);
+    public String charCreatorResult(@Valid UserCharacter userCharacter, BindingResult result, @RequestParam String feats){
+        if (result.hasErrors()){
+            return "redirect:/app/character-creator-correction";
+        }
+        if (userCharacter.getFeats().isEmpty()){
+            userCharacter.setFeats(null);
+            userCharacterService.saveUserCharacter(userCharacter);
+        }else {
+            Optional<Feats> feat = featRepository.findById(Long.parseLong(feats));
+            List<Feats> featsList = new ArrayList<>();
+            featsList.add(feat.get());
+            userCharacterService.saveUserCharacter(userCharacter);
+        }
         return "redirect:/app/select";
     }
 
@@ -103,16 +124,39 @@ public class AppController {
         model.addAttribute("Feats", featRepository.findAll());
         model.addAttribute("Background", backgroundRepository.findAll());
         model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
+
+        List<Feats> featsList = userCharacterRepository.findById(id).get().getFeats();
+        model.addAttribute("characterFeatName", featsList.stream()
+                .map(e -> e.getFeatName())
+                .collect(Collectors.joining()));
+        model.addAttribute("characterFeatId", featsList.stream()
+                .map(e -> e.getId()).toArray());
+
+        return "/app/characterEditor";
+    }
+
+    @GetMapping("/character-editor-correction/{id}")
+    public String charEditWithError(Model model, @PathVariable long id){
+        model.addAttribute("Race", raceRepository.findAll());
+        model.addAttribute("Feats", featRepository.findAll());
+        model.addAttribute("Background", backgroundRepository.findAll());
+        model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
+        model.addAttribute("errorMsg", CharacterDataErrorMsg);
+
+        List<Feats> featsList = userCharacterRepository.findById(id).get().getFeats();
+        model.addAttribute("characterFeatName", featsList.stream()
+                .map(e -> e.getFeatName())
+                .collect(Collectors.joining()));
+        model.addAttribute("characterFeatId", featsList.stream()
+                .map(e -> e.getId()).toArray());
+
         return "/app/characterEditor";
     }
 
     @GetMapping("/character-editor-result")
     public String charEditResult(Model model, UserCharacter userCharacter, BindingResult result, @RequestParam long id){
         if (result.hasErrors()){
-            model.addAttribute("Race", raceRepository.findAll());
-            model.addAttribute("Feats", featRepository.findAll());
-            model.addAttribute("Background", backgroundRepository.findAll());
-            return "/app/characterEditor";
+            return "redirect:/app/character-editor-correction/"+id;
         }
         userCharacterService.editUserCharacter(userCharacter);
         return "redirect:/app/select";
@@ -128,8 +172,6 @@ public class AppController {
         userCharacterRepository.deleteById(id);
         return "redirect:/app/select";
     }
-
-
 
     //TODO Fetch JavaScript for "dice rolling".
 }

@@ -47,7 +47,7 @@
     <!-- Sidebar Start -->
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-secondary navbar-dark">
-            <a href="#" class="navbar-brand mx-4 mb-3">
+            <a href="/app/select" class="navbar-brand mx-4 mb-3">
                 <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DragonDice</h3>
             </a>
 
@@ -87,7 +87,7 @@
                     <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                         <a href="#" class="dropdown-item">My Profile</a>
                         <a href="#" class="dropdown-item">Settings</a>
-                        <a href="#" class="dropdown-item">Log Out</a>
+                        <a href="/homepage" class="dropdown-item">Log Out</a>
                     </div>
                 </div>
             </div>

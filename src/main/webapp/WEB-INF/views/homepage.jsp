@@ -68,16 +68,40 @@
         <h6>
           Project DragonDice is yet another Dungeons & Dragons interactive app for your character's
           sheet. Main goal of this project is to give players more freedom with their creations by
-          introducing tools to create and browse everything they need
+          introducing tools to create and browse everything they need.
+          <br/>
+          Demo version is planned to be finished before 18th of August 2022
         </h6>
       </div>
+
       <br/>
+
       <div class="bg-secondary text-center rounded p-4">
         <h3>Progress:</h3>
+      </div>
+
+      <br/>
+
+      <div class="bg-secondary text-center rounded p-4">
         <h6>
-          Demo version is planned to be finished before 19th of August 2022
+          08.08.2022 - Basic features are finished:<br/>
+          - character creation and basic management<br/>
+          - player's panel with character sheet<br/>
+          - dynamic view that changes depends on character's statistics
         </h6>
       </div>
+
+      <br/>
+
+      <div class="bg-secondary text-center rounded p-4">
+        <h6>
+          11.08.2022 - Functionalities and fixes for app are added:<br/>
+          - register/login system<br/>
+          - errors handling<br/>
+          - simulation of virtual dice rolling
+        </h6>
+      </div>
+
     </div>
     <!-- News Panel End -->
 

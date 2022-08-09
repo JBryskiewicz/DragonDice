@@ -221,6 +221,7 @@
                                 </table>
                             </div>
                         <button type="submit" class="btn btn-primary">Create</button>
+                            <a style="color: #d41414">${errorMsg}</a>
                     </div>
                 </div>
                 <div class="col-sm-12 col-xl-6">
