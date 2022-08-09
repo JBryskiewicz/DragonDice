@@ -31,6 +31,7 @@
 
     <!-- Template Stylesheet -->
     <link href="/resources/css/style.css" rel="stylesheet">
+    <link href="/resources/css/diceRollerStyle.css" rel="stylesheet">
 </head>
 
 <body>

@@ -38,6 +38,7 @@
 
 <!-- Template Javascript -->
 <script src="/resources/js/main.js"></script>
+<script src="/resources/js/diceRoller.js"></script>
 </body>
 
 </html>

@@ -4,6 +4,7 @@
 
         <!-- Character Info Start -->
         <div class="container-fluid pt-4 px-4">
+            <div class="dice" id="status"></div>
             <div class="bg-secondary text-center rounded p-4">
                 <a style="color: #d41414; font-size: 20px;">Name: ${userCharacter.charName}</a>
                 <a>  |  </a>
@@ -35,16 +36,15 @@
                                     <td>${userCharacter.conAbility}</td><td>${userCharacter.intAbility}</td>
                                     <td>${userCharacter.wisAbility}</td><td>${userCharacter.chaAbility}</td>
                                     <%-- Initiative counted from DEX modifier, reminder to make logic for that --%>
-                                    <td><button type="button" class="btn btn-danger m-2">${dexMod}</button></td>
+                                    <td><button onclick="diceRoller(${dexMod})" type="button" class="btn btn-danger m-2">${dexMod}</button></td>
                                 </tr>
                                 <tr>
-                                    <%-- Make logic for modifiers so they can be displayed! --%>
-                                    <td><button type="button" class="btn btn-danger m-2">${strMod}</button></td>
-                                    <td><button type="button" class="btn btn-danger m-2">${dexMod}</button></td>
-                                    <td><button type="button" class="btn btn-danger m-2">${conMod}</button></td>
-                                    <td><button type="button" class="btn btn-danger m-2">${intMod}</button></td>
-                                    <td><button type="button" class="btn btn-danger m-2">${wisMod}</button></td>
-                                    <td><button type="button" class="btn btn-danger m-2">${chaMod}</button></td>
+                                    <td><button onclick="diceRoller(${strMod})" type="button" class="btn btn-danger m-2">${strMod}</button></td>
+                                    <td><button onclick="diceRoller(${dexMod})" type="button" class="btn btn-danger m-2">${dexMod}</button></td>
+                                    <td><button onclick="diceRoller(${conMod})" type="button" class="btn btn-danger m-2">${conMod}</button></td>
+                                    <td><button onclick="diceRoller(${intMod})" type="button" class="btn btn-danger m-2">${intMod}</button></td>
+                                    <td><button onclick="diceRoller(${wisMod})" type="button" class="btn btn-danger m-2">${wisMod}</button></td>
+                                    <td><button onclick="diceRoller(${chaMod})" type="button" class="btn btn-danger m-2">${chaMod}</button></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -95,12 +95,12 @@
                                 </thead>
                                 <tbody>
                                 <!-- In later versions proficiency will be picked for certain saving throws --->
-                                <tr><td>Strength</td><td><button type="button" class="btn btn-danger m-2">${strMod}</button></td></tr>
-                                <tr><td>Dexterity</td><td><button type="button" class="btn btn-danger m-2">${dexMod}</button></td></tr>
-                                <tr><td>Constitution</td><td><button type="button" class="btn btn-danger m-2">${conMod}</button></td></tr>
-                                <tr><td>Intelligence</td><td><button type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
-                                <tr><td>Wisdom</td><td><button type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
-                                <tr><td>Charisma</td><td><button type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
+                                <tr><td>Strength</td><td><button onclick="diceRoller(${strMod})"  type="button" class="btn btn-danger m-2">${strMod}</button></td></tr>
+                                <tr><td>Dexterity</td><td><button onclick="diceRoller(${dexMod})"  type="button" class="btn btn-danger m-2">${dexMod}</button></td></tr>
+                                <tr><td>Constitution</td><td><button onclick="diceRoller(${conMod})"  type="button" class="btn btn-danger m-2">${conMod}</button></td></tr>
+                                <tr><td>Intelligence</td><td><button onclick="diceRoller(${intMod})"  type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
+                                <tr><td>Wisdom</td><td><button onclick="diceRoller(${wisMod})"  type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
+                                <tr><td>Charisma</td><td><button onclick="diceRoller(${chaMod})"  type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
                                 </tbody>
                             </table>
 
@@ -144,24 +144,24 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr><td>Acrobatics</td><td><button type="button" class="btn btn-danger m-2">${dexMod}</button></td></tr>
-                                <tr><td>Animal Handling</td><td><button type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
-                                <tr><td>Arcana</td><td><button type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
-                                <tr><td>Athletics</td><td><button type="button" class="btn btn-danger m-2">${strMod}</button></td></tr>
-                                <tr><td>Deception</td><td><button type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
-                                <tr><td>History</td><td><button type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
-                                <tr><td>Insight</td><td><button type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
-                                <tr><td>Intimidation</td><td><button type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
-                                <tr><td>Investigation</td><td><button type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
-                                <tr><td>Medicine</td><td><button type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
-                                <tr><td>Nature</td><td><button type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
-                                <tr><td>Perception</td><td><button type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
-                                <tr><td>Performance</td><td><button type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
-                                <tr><td>Persuasion</td><td><button type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
-                                <tr><td>Religion</td><td><button type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
-                                <tr><td>Sleight of Hand</td><td><button type="button" class="btn btn-danger m-2">${dexMod}</button></td></tr>
-                                <tr><td>Stealth</td><td><button type="button" class="btn btn-danger m-2">${dexMod}</button></td></tr>
-                                <tr><td>Survival</td><td><button type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
+                                <tr><td>Acrobatics</td><td><button onclick="diceRoller(${dexMod})"  type="button" class="btn btn-danger m-2">${dexMod}</button></td></tr>
+                                <tr><td>Animal Handling</td><td><button onclick="diceRoller(${wisMod})"  type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
+                                <tr><td>Arcana</td><td><button onclick="diceRoller(${intMod})"  type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
+                                <tr><td>Athletics</td><td><button onclick="diceRoller(${strMod})"  type="button" class="btn btn-danger m-2">${strMod}</button></td></tr>
+                                <tr><td>Deception</td><td><button onclick="diceRoller(${chaMod})"  type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
+                                <tr><td>History</td><td><button onclick="diceRoller(${intMod})"  type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
+                                <tr><td>Insight</td><td><button onclick="diceRoller(${wisMod})"  type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
+                                <tr><td>Intimidation</td><td><button onclick="diceRoller(${chaMod})"  type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
+                                <tr><td>Investigation</td><td><button onclick="diceRoller(${intMod})"  type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
+                                <tr><td>Medicine</td><td><button onclick="diceRoller(${wisMod})"  type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
+                                <tr><td>Nature</td><td><button onclick="diceRoller(${intMod})"  type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
+                                <tr><td>Perception</td><td><button onclick="diceRoller(${wisMod})"  type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
+                                <tr><td>Performance</td><td><button onclick="diceRoller(${chaMod})"  type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
+                                <tr><td>Persuasion</td><td><button onclick="diceRoller(${chaMod})"  type="button" class="btn btn-danger m-2">${chaMod}</button></td></tr>
+                                <tr><td>Religion</td><td><button onclick="diceRoller(${intMod})"  type="button" class="btn btn-danger m-2">${intMod}</button></td></tr>
+                                <tr><td>Sleight of Hand</td><td><button onclick="diceRoller(${dexMod})"  type="button" class="btn btn-danger m-2">${dexMod}</button></td></tr>
+                                <tr><td>Stealth</td><td><button onclick="diceRoller(${dexMod})"  type="button" class="btn btn-danger m-2">${dexMod}</button></td></tr>
+                                <tr><td>Survival</td><td><button onclick="diceRoller(${wisMod})"  type="button" class="btn btn-danger m-2">${wisMod}</button></td></tr>
                                 </tbody>
                             </table>
                         </div>
