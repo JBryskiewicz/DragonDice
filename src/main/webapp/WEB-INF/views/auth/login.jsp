@@ -56,11 +56,11 @@
                         <h4>Sign In</h4>
                     </div>
 
-                    <form action="" method="post">
+                    <form method="post">
 
                         <div class="form-floating mb-3">
-                            <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Email address</label>
+                            <input name="username" type="text" class="form-control" id="floatingInput" placeholder="Username">
+                            <label for="floatingInput">Username</label>
                         </div>
                         <div class="form-floating mb-4">
                             <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">

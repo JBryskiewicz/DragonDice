@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService {
     public User findByUserName(String username) {
         return userRepository.findByUserName(username);
     }
-
     @Override
     public void saveUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));

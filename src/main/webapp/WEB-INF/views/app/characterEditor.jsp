@@ -162,12 +162,10 @@
                             <a style="color:#c1d6cc;">${feat.featName}</a>
                             </c:forEach>
                             <br/>
-                            <a>${characterFeatId[0]}</a>
                             <div class="form-floating mb-3">
                                 <select name="feats" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">
                                     <option selected value="${characterFeatId[0]}">${characterFeatName}</option>
-
                                     <c:forEach items="${Feats}" var="feat">
                                     <option value="${feat.id}">${feat.featName}</option>
                                     </c:forEach>
