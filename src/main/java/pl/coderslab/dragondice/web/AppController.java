@@ -154,7 +154,7 @@ public class AppController {
     }
 
     @GetMapping("/character-editor-result")
-    public String charEditResult(Model model, UserCharacter userCharacter, BindingResult result, @RequestParam long id){
+    public String charEditResult(UserCharacter userCharacter, BindingResult result, @RequestParam long id){
         if (result.hasErrors()){
             return "redirect:/app/character-editor-correction/"+id;
         }
