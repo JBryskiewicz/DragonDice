@@ -95,7 +95,7 @@
 
       <div class="bg-secondary text-center rounded p-4">
         <h6>
-          11.08.2022 - Functionalities and fixes for app are added:<br/>
+          10.08.2022 - Functionalities and fixes for app are added:<br/>
           - register/login system<br/>
           - errors handling<br/>
           - simulation of virtual dice rolling
