@@ -172,6 +172,4 @@ public class AppController {
         userCharacterRepository.deleteById(id);
         return "redirect:/app/select";
     }
-
-    //TODO Fetch JavaScript for "dice rolling".
 }

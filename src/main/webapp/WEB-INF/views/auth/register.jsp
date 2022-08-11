@@ -63,7 +63,7 @@
                         <label for="floatingInput">Email address</label>
                         </div>
                         <div class="form-floating mb-4">
-                        <input name="password" class="form-control" id="floatingPassword" placeholder="password"/>
+                        <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="password"/>
                         <label for="floatingPassword">Password</label>
                         </div>
 
