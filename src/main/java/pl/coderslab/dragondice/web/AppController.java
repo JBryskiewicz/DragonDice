@@ -49,11 +49,13 @@ public class AppController {
     public String charSelect(Model model, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("userCharacter", userCharacterRepository.findAllByUserId(user.getId()));
+        model.addAttribute("userName", user.getUserName());
         return "/app/characterSelect";
     }
-
     @GetMapping("/character-sheet/{id}")
-    public String charSheet(Model model, @PathVariable long id){
+    public String charSheet(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
+        User user = currentUser.getUser();
+        model.addAttribute("userName", user.getUserName());
         Optional<UserCharacter> userCharacter = userCharacterRepository.findById(id);
 
         model.addAttribute("userCharacter", userCharacter.get());
@@ -83,22 +85,22 @@ public class AppController {
 
         return "/app/characterSheet";
     }
-
     @GetMapping("/character-creator")
     public String charCreator(Model model, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("user", user.getId());
+        model.addAttribute("userName", user.getUserName());
         model.addAttribute("Race", raceRepository.findAll());
         model.addAttribute("Feats", featRepository.findAll());
         model.addAttribute("Background", backgroundRepository.findAll());
         model.addAttribute("userCharacter", new UserCharacter());
         return "/app/characterCreator";
     }
-
     @GetMapping("/character-creator-correction")
     public String charCreatorWithError(Model model, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("user", user.getId());
+        model.addAttribute("userName", user.getUserName());
         model.addAttribute("Race", raceRepository.findAll());
         model.addAttribute("Feats", featRepository.findAll());
         model.addAttribute("Background", backgroundRepository.findAll());
@@ -106,7 +108,6 @@ public class AppController {
         model.addAttribute("errorMsg", CharacterDataErrorMsg);
         return "/app/characterCreator";
     }
-
     @GetMapping("/character-creator-result")
     public String charCreatorResult(@Valid UserCharacter userCharacter, BindingResult result,
                                     @RequestParam String feats, @RequestParam long userId){
@@ -126,10 +127,10 @@ public class AppController {
         }
         return "redirect:/app/select";
     }
-
     @GetMapping("/character-editor/{id}")
     public String charEdit(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
+        model.addAttribute("userName", user.getUserName());
         model.addAttribute("user", user.getId());
         model.addAttribute("Race", raceRepository.findAll());
         model.addAttribute("Feats", featRepository.findAll());
@@ -145,10 +146,10 @@ public class AppController {
 
         return "/app/characterEditor";
     }
-
     @GetMapping("/character-editor-correction/{id}")
     public String charEditWithError(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
+        model.addAttribute("userName", user.getUserName());
         model.addAttribute("user", user.getId());
         model.addAttribute("Race", raceRepository.findAll());
         model.addAttribute("Feats", featRepository.findAll());
@@ -165,7 +166,6 @@ public class AppController {
 
         return "/app/characterEditor";
     }
-
     @GetMapping("/character-editor-result")
     public String charEditResult(UserCharacter userCharacter, BindingResult result,
                                  @RequestParam long id, @RequestParam long userId){
@@ -177,9 +177,10 @@ public class AppController {
         userCharacterService.editUserCharacter(userCharacter);
         return "redirect:/app/select";
     }
-
     @GetMapping("/character-delete/{id}")
-    public String charDelete(Model model, @PathVariable long id){
+    public String charDelete(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
+        User user = currentUser.getUser();
+        model.addAttribute("userName", user.getUserName());
         model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
         return "/app/characterDelete";
     }
@@ -187,12 +188,5 @@ public class AppController {
     public String charDeleteResult(@PathVariable long id){
         userCharacterRepository.deleteById(id);
         return "redirect:/app/select";
-    }
-
-    @GetMapping("/test")
-    @ResponseBody
-    public String test(@AuthenticationPrincipal CurrentUser currentUser){
-        User entityUser = currentUser.getUser();
-        return "Hello " + entityUser.getUserName();
     }
 }

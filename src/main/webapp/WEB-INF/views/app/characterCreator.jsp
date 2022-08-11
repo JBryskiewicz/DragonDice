@@ -108,9 +108,8 @@
                                     <th scope="col">
                                         <h6>Level</h6>
                                         <div class="form-floating mb-3">
-                                            <select name="charLevel" aria-label="Floating label select example">
-                                                <option selected></option>
-                                                <option value="1">1</option>
+                                            <select name="charLevel" aria-label="Floating label select example" id="lvl-condition" onchange="LevelSelectorController()">
+                                                <option selected value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
@@ -150,16 +149,30 @@
                                 </select>
                                 <label for="floatingSelect">Select your Race</label>
                             </div>
-                            <div class="form-floating mb-3">
-                                <select name="feats" class="form-select" id="floatingSelect"
+
+                            <%-- THIS PART SHOULD BE HIDDEN BEFORE UNTIL LEVEL 4 - START --%>
+                            <div id="lvl-4" style="display: none">
+
+                                <label for="featsBox">New Feat: </label>
+                                <input type="checkbox" id="featsBox">
+                                <br/>
+                                <label for="scoreBox">Increase: </label>
+                                <input type="checkbox" id="scoreBox">
+
+                                <div id="lvl-4-feat" style="display: none">
+                                    <div class="form-floating mb-3">
+                                        <select name="feats" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option selected></option>
-                                    <c:forEach items="${Feats}" var="feat">
-                                    <option value="${feat.id}">${feat.featName}</option>
-                                    </c:forEach>
-                                </select>
-                                <label for="floatingSelect">Select a Feat</label>
-                            </div>
+                                            <option selected></option>
+                                            <c:forEach items="${Feats}" var="feat">
+                                            <option value="${feat.id}">${feat.featName}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <label for="floatingSelect">Select a Feat</label>
+                                    </div>
+                                </div>
+
+                        <div id="lvl-4-increase" style="display: none">
                             <div class="bg-secondary rounded h-100 p-4"><h6>Ability Score Increase</h6>
                                 <table class="table table-borderless">
                                     <thead>
@@ -220,6 +233,10 @@
                                     </tbody>
                                 </table>
                             </div>
+                            </div>
+                        </div>
+                        <%-- THIS PART SHOULD BE HIDDEN BEFORE UNTIL LEVEL 4 - END --%>
+
                             <input type="hidden" name="id" value="${userCharacter.id}">
                             <input type="hidden" name="userId" value="${user}">
                             <input type="hidden" name="proficiency" value="3">
