@@ -41,4 +41,7 @@ public class UserCharacter {
     private Background background;      //done
     @ManyToMany
     private List<Feats> feats;          //done
+
+    @ManyToOne
+    private User user;
 }

@@ -1,8 +1,10 @@
 package pl.coderslab.dragondice.web;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.dragondice.domain.CurrentUser;
 import pl.coderslab.dragondice.domain.User;
 import pl.coderslab.dragondice.service.user.UserService;
 
@@ -34,5 +36,4 @@ public class UserController {
     public String login(){
         return "auth/login";
     }
-
 }

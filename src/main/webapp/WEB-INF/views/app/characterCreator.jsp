@@ -220,6 +220,10 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <input type="hidden" name="id" value="${userCharacter.id}">
+                            <input type="hidden" name="userId" value="${user}">
+                            <input type="hidden" name="proficiency" value="3">
+                            <input type="hidden" name="expertise" value="6">
                         <button type="submit" class="btn btn-primary">Create</button>
                             <a style="color: #d41414">${errorMsg}</a>
                     </div>
@@ -242,9 +246,6 @@
                                 <textarea class="form-control" name="backstory" placeholder="Backstory" id="floatingTextarea" style="height: 300px;"></textarea>
                                 <label for="floatingTextarea">Backstory</label>
                             </div>
-                            <input type="hidden" name="proficiency" value="3">
-                            <input type="hidden" name="expertise" value="6">
-
                             <div class="form-floating mb-3">
                                 <select name="charAlignment" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">

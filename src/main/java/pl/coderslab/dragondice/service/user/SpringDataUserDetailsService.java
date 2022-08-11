@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import pl.coderslab.dragondice.domain.CurrentUser;
 import pl.coderslab.dragondice.domain.User;
 
 import java.util.HashSet;
@@ -31,7 +32,8 @@ public class SpringDataUserDetailsService implements UserDetailsService {
         user.getRoles().forEach(r ->
                 grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getUserName(), user.getPassword(), grantedAuthorities);
+        return new CurrentUser(user.getUserName(),user.getPassword(),
+                grantedAuthorities, user);
+
     }
 }

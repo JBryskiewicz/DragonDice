@@ -233,6 +233,7 @@
                                 </table>
                             </div>
                             <input type="hidden" name="id" value="${userCharacter.id}">
+                            <input type="hidden" name="userId" value="${user}">
                             <input type="hidden" name="proficiency" value="3">
                             <input type="hidden" name="expertise" value="6">
                         <button type="submit" class="btn btn-primary">Edit Character</button>
