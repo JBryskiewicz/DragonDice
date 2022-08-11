@@ -153,7 +153,7 @@
                             <%-- THIS PART SHOULD BE HIDDEN BEFORE UNTIL LEVEL 4 - START --%>
                             <div id="lvl-4" style="display: none">
 
-                                <label for="featsBox">New Feat: </label>
+                                <label for="featsBox">Feat: </label>
                                 <input type="checkbox" id="featsBox">
                                 <br/>
                                 <label for="scoreBox">Increase: </label>

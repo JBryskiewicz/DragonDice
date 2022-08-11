@@ -114,7 +114,7 @@
                                     <th scope="col">
                                         <h6>Level</h6>
                                         <div class="form-floating mb-3">
-                                            <select name="charLevel" aria-label="Floating label select example">
+                                            <select name="charLevel" aria-label="Floating label select example" id="lvl-condition" onchange="LevelSelectorController()">
                                                 <option selected value="${userCharacter.charLevel}">${userCharacter.charLevel}</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -161,77 +161,101 @@
                             <c:forEach items="${userCharacter.feats}" var="feat">
                             <a style="color:#c1d6cc;">${feat.featName}</a>
                             </c:forEach>
-                            <br/>
-                            <div class="form-floating mb-3">
-                                <select name="feats" class="form-select" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                    <option selected value="${characterFeatId[0]}">${characterFeatName}</option>
-                                    <c:forEach items="${Feats}" var="feat">
-                                    <option value="${feat.id}">${feat.featName}</option>
-                                    </c:forEach>
-                                </select>
-                                <label for="floatingSelect">Select a Feat</label>
+
+                            <%-- THIS PART SHOULD BE HIDDEN BEFORE UNTIL LEVEL 4 - START --%>
+                            <c:choose>
+                                <c:when test="${userCharacter.charLevel < 4}">
+                                    <div id="lvl-4" style="display: none">
+                                </c:when>
+                                <c:otherwise>
+                                    <div id="lvl-4" style="display: block">
+                                </c:otherwise>
+                            </c:choose>
+
+                                <label for="featsBox">Feat: </label>
+                                <input type="checkbox" id="featsBox">
+                                <br/>
+                                <label for="scoreBox">Increase: </label>
+                                <input type="checkbox" id="scoreBox">
+
+                                <div id="lvl-4-feat" style="display: none">
+                                    <div class="form-floating mb-3">
+                                        <select name="feats" class="form-select" id="floatingSelect"
+                                                aria-label="Floating label select example">
+                                            <option selected value="${characterFeatId[0]}">${characterFeatName}</option>
+                                            <c:forEach items="${Feats}" var="feat">
+                                                <option value="${feat.id}">${feat.featName}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <label for="floatingSelect">Select a Feat</label>
+                                    </div>
+                                </div>
+
+                                <div id="lvl-4-increase" style="display: none">
+                                    <div class="bg-secondary rounded h-100 p-4"><h6>Ability Score Increase</h6>
+                                        <table class="table table-borderless">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">STR</th>
+                                                <th scope="col">DEX</th>
+                                                <th scope="col">CON</th>
+                                                <th scope="col">INT</th>
+                                                <th scope="col">WIS</th>
+                                                <th scope="col">CHA</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="strIncrease" aria-label="Floating label select example">
+                                                        <option selected>0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="dexIncrease" aria-label="Floating label select example">
+                                                        <option selected>0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="conIncrease" aria-label="Floating label select example">
+                                                        <option selected>0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="intIncrease" aria-label="Floating label select example">
+                                                        <option selected>0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="wisIncrease" aria-label="Floating label select example">
+                                                        <option selected>0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="chaIncrease" aria-label="Floating label select example">
+                                                        <option selected>0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="bg-secondary rounded h-100 p-4"><h6>Ability Score Increase</h6>
-                                <table class="table table-borderless">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">STR</th>
-                                        <th scope="col">DEX</th>
-                                        <th scope="col">CON</th>
-                                        <th scope="col">INT</th>
-                                        <th scope="col">WIS</th>
-                                        <th scope="col">CHA</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td><div class="form-floating mb-3">
-                                            <select name="strIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
-                                                <option value="1">+1</option>
-                                                <option value="2">+2</option>
-                                            </select>
-                                        </div></td>
-                                        <td><div class="form-floating mb-3">
-                                            <select name="dexIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
-                                                <option value="1">+1</option>
-                                                <option value="2">+2</option>
-                                            </select>
-                                        </div></td>
-                                        <td><div class="form-floating mb-3">
-                                            <select name="conIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
-                                                <option value="1">+1</option>
-                                                <option value="2">+2</option>
-                                            </select>
-                                        </div></td>
-                                        <td><div class="form-floating mb-3">
-                                            <select name="intIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
-                                                <option value="1">+1</option>
-                                                <option value="2">+2</option>
-                                            </select>
-                                        </div></td>
-                                        <td><div class="form-floating mb-3">
-                                            <select name="wisIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
-                                                <option value="1">+1</option>
-                                                <option value="2">+2</option>
-                                            </select>
-                                        </div></td>
-                                        <td><div class="form-floating mb-3">
-                                            <select name="chaIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
-                                                <option value="1">+1</option>
-                                                <option value="2">+2</option>
-                                            </select>
-                                        </div></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <%-- THIS PART SHOULD BE HIDDEN BEFORE UNTIL LEVEL 4 - END --%>
+
                             <input type="hidden" name="id" value="${userCharacter.id}">
                             <input type="hidden" name="userId" value="${user}">
                             <input type="hidden" name="proficiency" value="3">
