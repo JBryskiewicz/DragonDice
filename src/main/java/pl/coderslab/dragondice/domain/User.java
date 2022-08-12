@@ -26,8 +26,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany
-    private List<UserCharacter> userCharacters;
+//    @OneToMany
+//    private List<UserCharacter> userCharacters;
 
     private int enabled;
 

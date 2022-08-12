@@ -7,7 +7,6 @@ import pl.coderslab.dragondice.repository.UserCharacterRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Optional;
 
 @Service
 @Transactional

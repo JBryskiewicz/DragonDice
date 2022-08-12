@@ -17,30 +17,32 @@ import java.util.List;
 public class UserCharacter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;                    //automatic
-    private int charLevel;              //done
-    private String charName;            //done
-    private int charAge;                //done
-    private String charAlignment;       //done
+    private long id;
+    private int charLevel;
+    private String charName;
+    private int charAge;
+    private String charAlignment;
     @Size(max = 2000)
-    private String backstory;           //done
+    private String backstory;
 
-    private int proficiency;            //done
-    private int expertise;              //done
+    private int proficiency;
+    private int expertise;
 
-    private int strAbility;             //done
-    private int dexAbility;             //done
-    private int conAbility;             //done
-    private int intAbility;             //done
-    private int wisAbility;             //done
-    private int chaAbility;             //done
+    private int strAbility;
+    private int dexAbility;
+    private int conAbility;
+    private int intAbility;
+    private int wisAbility;
+    private int chaAbility;
 
     @ManyToOne
-    private Race race;                  //done
+    private Race race;
     @ManyToOne
-    private Background background;      //done
+    private Background background;
     @ManyToMany
-    private List<Feats> feats;          //done
+    private List<Feats> feats;
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, targetEntity = ScoreIncrease.class)
+    private List<ScoreIncrease> scoreIncreases;
 
     @ManyToOne
     private User user;

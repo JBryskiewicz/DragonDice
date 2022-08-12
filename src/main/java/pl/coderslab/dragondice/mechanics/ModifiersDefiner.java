@@ -16,10 +16,14 @@ public class ModifiersDefiner {
             return 3;
         } else if (modifier == 18 || modifier == 19) {
             return 4;
-        } else if (modifier == 20) {
+        } else if (modifier == 20 || modifier == 21) {
             return 5;
-        } else if (modifier > 21) {
+        } else if (modifier == 22 || modifier == 23) {
             return 6;
+        } else if (modifier == 24 || modifier == 25) {
+            return 7;
+        } else if (modifier >= 26){
+            return 8;
         } else {
             return -2;
         }

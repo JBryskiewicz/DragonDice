@@ -188,43 +188,43 @@
                                     <tbody>
                                     <tr>
                                         <td><div class="form-floating mb-3">
-                                            <select name="strIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
+                                            <select name="strIncreaseFour" aria-label="Floating label select example">
+                                                <option selected value="0">0</option>
                                                 <option value="1">+1</option>
                                                 <option value="2">+2</option>
                                             </select>
                                         </div></td>
                                         <td><div class="form-floating mb-3">
-                                            <select name="dexIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
+                                            <select name="dexIncreaseFour" aria-label="Floating label select example">
+                                                <option selected value="0">0</option>
                                                 <option value="1">+1</option>
                                                 <option value="2">+2</option>
                                             </select>
                                         </div></td>
                                         <td><div class="form-floating mb-3">
-                                            <select name="conIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
+                                            <select name="conIncreaseFour" aria-label="Floating label select example">
+                                                <option selected value="0">0</option>
                                                 <option value="1">+1</option>
                                                 <option value="2">+2</option>
                                             </select>
                                         </div></td>
                                         <td><div class="form-floating mb-3">
-                                            <select name="intIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
+                                            <select name="intIncreaseFour" aria-label="Floating label select example">
+                                                <option selected value="0">0</option>
                                                 <option value="1">+1</option>
                                                 <option value="2">+2</option>
                                             </select>
                                         </div></td>
                                         <td><div class="form-floating mb-3">
-                                            <select name="wisIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
+                                            <select name="wisIncreaseFour" aria-label="Floating label select example">
+                                                <option selected value="0">0</option>
                                                 <option value="1">+1</option>
                                                 <option value="2">+2</option>
                                             </select>
                                         </div></td>
                                         <td><div class="form-floating mb-3">
-                                            <select name="chaIncrease" aria-label="Floating label select example">
-                                                <option selected>0</option>
+                                            <select name="chaIncreaseFour" aria-label="Floating label select example">
+                                                <option selected value="0">0</option>
                                                 <option value="1">+1</option>
                                                 <option value="2">+2</option>
                                             </select>

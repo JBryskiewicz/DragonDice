@@ -32,10 +32,10 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>${userCharacter.strAbility}</td><td>${userCharacter.dexAbility}</td>
-                                    <td>${userCharacter.conAbility}</td><td>${userCharacter.intAbility}</td>
-                                    <td>${userCharacter.wisAbility}</td><td>${userCharacter.chaAbility}</td>
-                                    <%-- Initiative counted from DEX modifier, reminder to make logic for that --%>
+                                    <td>${userCharacter.strAbility + strIncrease}</td><td>${userCharacter.dexAbility + dexIncrease}</td>
+                                    <td>${userCharacter.conAbility + conIncrease}</td><td>${userCharacter.intAbility + intIncrease}</td>
+                                    <td>${userCharacter.wisAbility + wisIncrease}</td><td>${userCharacter.chaAbility + chaIncrease}</td>
+
                                     <td><button onclick="diceRoller(${dexMod})" type="button" class="btn btn-danger m-2">${dexMod}</button></td>
                                 </tr>
                                 <tr>
