@@ -3,9 +3,7 @@ package pl.coderslab.dragondice.service.scoreIncrease;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.dragondice.domain.ScoreIncrease;
-import pl.coderslab.dragondice.domain.UserCharacter;
 import pl.coderslab.dragondice.repository.ScoreIncreaseRepository;
-import pl.coderslab.dragondice.repository.UserCharacterRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +12,7 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public class ScoreIncreaseServiceImpl implements ScoreIncreaseService{
 
-    public ScoreIncreaseRepository scoreIncreaseRepository;
+    private final ScoreIncreaseRepository scoreIncreaseRepository;
     @PersistenceContext
     private EntityManager entityManager;
 

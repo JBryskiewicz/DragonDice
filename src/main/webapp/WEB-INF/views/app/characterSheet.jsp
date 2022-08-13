@@ -32,9 +32,12 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>${userCharacter.strAbility + strIncrease}</td><td>${userCharacter.dexAbility + dexIncrease}</td>
-                                    <td>${userCharacter.conAbility + conIncrease}</td><td>${userCharacter.intAbility + intIncrease}</td>
-                                    <td>${userCharacter.wisAbility + wisIncrease}</td><td>${userCharacter.chaAbility + chaIncrease}</td>
+                                    <td>${userCharacter.strAbility + scoreIncrease.strIncreaseFour}</td>
+                                    <td>${userCharacter.dexAbility + scoreIncrease.dexIncreaseFour}</td>
+                                    <td>${userCharacter.conAbility + scoreIncrease.conIncreaseFour}</td>
+                                    <td>${userCharacter.intAbility + scoreIncrease.intIncreaseFour}</td>
+                                    <td>${userCharacter.wisAbility + scoreIncrease.wisIncreaseFour}</td>
+                                    <td>${userCharacter.chaAbility + scoreIncrease.chaIncreaseFour}</td>
 
                                     <td><button onclick="diceRoller(${dexMod})" type="button" class="btn btn-danger m-2">${dexMod}</button></td>
                                 </tr>

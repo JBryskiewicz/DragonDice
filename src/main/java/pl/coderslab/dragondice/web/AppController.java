@@ -58,46 +58,37 @@ public class AppController {
     public String charSheet(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("userName", user.getUserName());
-        Optional<UserCharacter> userCharacter = userCharacterRepository.findById(id);
-        List<ScoreIncrease> abilityIncrease = scoreIncreaseRepository.findAllByCharacterId(id);
 
-        model.addAttribute("userCharacter", userCharacter.get());
+        UserCharacter userCharacter = userCharacterRepository.findById(id).get();
+        Optional<ScoreIncrease> ai = scoreIncreaseRepository.findByCharacterId(id);
 
-        model.addAttribute("strIncrease", abilityIncrease.stream().iterator().next().getStrIncreaseFour());
-        model.addAttribute("dexIncrease", abilityIncrease.stream().iterator().next().getDexIncreaseFour());
-        model.addAttribute("conIncrease", abilityIncrease.stream().iterator().next().getConIncreaseFour());
-        model.addAttribute("intIncrease", abilityIncrease.stream().iterator().next().getIntIncreaseFour());
-        model.addAttribute("wisIncrease", abilityIncrease.stream().iterator().next().getWisIncreaseFour());
-        model.addAttribute("chaIncrease", abilityIncrease.stream().iterator().next().getChaIncreaseFour());
+        ScoreIncrease abilityIncrease = ai.isPresent() ? ai.get() : new ScoreIncrease(0,0,0,0,0,0);
+
+        model.addAttribute("userCharacter", userCharacter);
+        model.addAttribute("scoreIncrease", abilityIncrease);
 
         model.addAttribute("strMod",
-                ModifiersDefiner.abilityModifier(userCharacter.get().getStrAbility()
-                        + userCharacter.get().getScoreIncreases().stream().iterator().next().getStrIncreaseFour()));
+                ModifiersDefiner.abilityModifier(userCharacter.getStrAbility() + abilityIncrease.getStrIncreaseFour()));
         model.addAttribute("dexMod",
-                ModifiersDefiner.abilityModifier(userCharacter.get().getDexAbility()
-                        + userCharacter.get().getScoreIncreases().stream().iterator().next().getDexIncreaseFour()));
+                ModifiersDefiner.abilityModifier(userCharacter.getDexAbility() + abilityIncrease.getDexIncreaseFour()));
         model.addAttribute("conMod",
-                ModifiersDefiner.abilityModifier(userCharacter.get().getConAbility()
-                        + userCharacter.get().getScoreIncreases().stream().iterator().next().getConIncreaseFour()));
+                ModifiersDefiner.abilityModifier(userCharacter.getConAbility() + abilityIncrease.getConIncreaseFour()));
         model.addAttribute("intMod",
-                ModifiersDefiner.abilityModifier(userCharacter.get().getIntAbility()
-                        + userCharacter.get().getScoreIncreases().stream().iterator().next().getIntIncreaseFour()));
+                ModifiersDefiner.abilityModifier(userCharacter.getIntAbility() + abilityIncrease.getIntIncreaseFour()));
         model.addAttribute("wisMod",
-                ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()
-                        + userCharacter.get().getScoreIncreases().stream().iterator().next().getWisIncreaseFour()));
+                ModifiersDefiner.abilityModifier(userCharacter.getWisAbility() + abilityIncrease.getWisIncreaseFour()));
         model.addAttribute("chaMod",
-                ModifiersDefiner.abilityModifier(userCharacter.get().getChaAbility()
-                        + userCharacter.get().getScoreIncreases().stream().iterator().next().getChaIncreaseFour()));
+                ModifiersDefiner.abilityModifier(userCharacter.getChaAbility() + abilityIncrease.getChaIncreaseFour()));
 
         model.addAttribute("armorClass",
-                baseTen + ModifiersDefiner.abilityModifier(userCharacter.get().getDexAbility()));
+                baseTen + ModifiersDefiner.abilityModifier(userCharacter.getDexAbility()));
 
         model.addAttribute("passivePerception",
-                baseTen + ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()));
+                baseTen + ModifiersDefiner.abilityModifier(userCharacter.getWisAbility()));
         model.addAttribute("passiveInvestigation",
-                baseTen + ModifiersDefiner.abilityModifier(userCharacter.get().getIntAbility()));
+                baseTen + ModifiersDefiner.abilityModifier(userCharacter.getIntAbility()));
         model.addAttribute("passiveInsight",
-                baseTen + ModifiersDefiner.abilityModifier(userCharacter.get().getWisAbility()));
+                baseTen + ModifiersDefiner.abilityModifier(userCharacter.getWisAbility()));
 
         return "/app/characterSheet";
     }
@@ -128,22 +119,20 @@ public class AppController {
     public String charCreatorResult(@Valid UserCharacter userCharacter,@Valid ScoreIncrease scoreIncrease, BindingResult result,
                                     @RequestParam String feats, @RequestParam long userId){
 
-        Optional<User> findUser = userRepository.findById(userId);
+        User findUser = userRepository.findById(userId).get();
         if (result.hasErrors()){
             return "redirect:/app/character-creator-correction";
         }
         if (userCharacter.getFeats().isEmpty()){
-            userCharacter.setUser(findUser.get());
-            scoreIncreaseService.saveScoreIncrease(scoreIncrease);
-            List<ScoreIncrease> increase = new ArrayList<>();
-            increase.add(scoreIncrease);
-            userCharacter.setScoreIncreases(increase);
+            userCharacter.setUser(findUser);
             userCharacterService.saveUserCharacter(userCharacter);
-        }else {
+            scoreIncrease.setUserCharacter(userCharacter);
+            scoreIncreaseService.saveScoreIncrease(scoreIncrease);
+        }else { //TODO REMINDER ABOUT ALL FEATS IMPLEMENTATION AND MODIFICATION OF THIS PART \/
             Optional<Feats> feat = featRepository.findById(Long.parseLong(feats));
             List<Feats> featsList = new ArrayList<>();
             featsList.add(feat.get());
-            userCharacter.setUser(findUser.get());
+            userCharacter.setUser(findUser);
             userCharacterService.saveUserCharacter(userCharacter);
         }
         return "redirect:/app/select";
@@ -165,13 +154,8 @@ public class AppController {
         model.addAttribute("characterFeatId", featsList.stream()
                 .map(e -> e.getId()).toArray());
 
-        List<ScoreIncrease> increaseList = scoreIncreaseRepository.findAllByCharacterId(id);
-        model.addAttribute("scoreIncreaseStr", increaseList.stream().iterator().next().getStrIncreaseFour());
-        model.addAttribute("scoreIncreaseDex", increaseList.stream().iterator().next().getDexIncreaseFour());
-        model.addAttribute("scoreIncreaseCon", increaseList.stream().iterator().next().getConIncreaseFour());
-        model.addAttribute("scoreIncreaseInt", increaseList.stream().iterator().next().getIntIncreaseFour());
-        model.addAttribute("scoreIncreaseWis", increaseList.stream().iterator().next().getWisIncreaseFour());
-        model.addAttribute("scoreIncreaseCha", increaseList.stream().iterator().next().getChaIncreaseFour());
+        ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
+        model.addAttribute("scoreIncrease", abilityIncrease);
 
         return "/app/characterEditor";
     }
@@ -193,13 +177,8 @@ public class AppController {
         model.addAttribute("characterFeatId", featsList.stream()
                 .map(e -> e.getId()).toArray());
 
-        List<ScoreIncrease> increaseList = scoreIncreaseRepository.findAllByCharacterId(id);
-        model.addAttribute("scoreIncreaseStr", increaseList.stream().iterator().next().getStrIncreaseFour());
-        model.addAttribute("scoreIncreaseDex", increaseList.stream().iterator().next().getDexIncreaseFour());
-        model.addAttribute("scoreIncreaseCon", increaseList.stream().iterator().next().getConIncreaseFour());
-        model.addAttribute("scoreIncreaseInt", increaseList.stream().iterator().next().getIntIncreaseFour());
-        model.addAttribute("scoreIncreaseWis", increaseList.stream().iterator().next().getWisIncreaseFour());
-        model.addAttribute("scoreIncreaseCha", increaseList.stream().iterator().next().getChaIncreaseFour());
+        ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
+        model.addAttribute("scoreIncrease", abilityIncrease);
 
         return "/app/characterEditor";
     }
@@ -213,11 +192,9 @@ public class AppController {
             return "redirect:/app/character-editor-correction/"+id;
         }else {
             userCharacter.setUser(findingUser.get());
-            List<ScoreIncrease> increase = new ArrayList<>();
-            increase.add(scoreIncrease);
-            userCharacter.setScoreIncreases(increase);
-            scoreIncreaseService.editScoreIncrease(scoreIncrease);
             userCharacterService.editUserCharacter(userCharacter);
+            scoreIncrease.setUserCharacter(userCharacter);
+            scoreIncreaseService.editScoreIncrease(scoreIncrease);
             return "redirect:/app/select";
         }
     }

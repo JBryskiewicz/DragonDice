@@ -13,7 +13,6 @@ import javax.persistence.PersistenceContext;
 public class UserCharacterServiceImpl implements UserCharacterService {
 
     private final UserCharacterRepository userCharacterRepository;
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -25,7 +24,6 @@ public class UserCharacterServiceImpl implements UserCharacterService {
     public void saveUserCharacter(UserCharacter userCharacter) {
         userCharacterRepository.save(userCharacter);
     }
-
     @Override
     public void editUserCharacter(UserCharacter userCharacter){
         entityManager.merge(userCharacter);

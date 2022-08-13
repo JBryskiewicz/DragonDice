@@ -208,7 +208,7 @@
                                             <tr>
                                                 <td><div class="form-floating mb-3">
                                                     <select name="strIncreaseFour" aria-label="Floating label select example">
-                                                        <option selected value="${scoreIncreaseStr}">${scoreIncreaseStr}</option>
+                                                        <option selected value="${scoreIncrease.strIncreaseFour}">${scoreIncrease.strIncreaseFour}</option>
                                                         <option value="0">0</option>
                                                         <option value="1">+1</option>
                                                         <option value="2">+2</option>
@@ -216,7 +216,7 @@
                                                 </div></td>
                                                 <td><div class="form-floating mb-3">
                                                     <select name="dexIncreaseFour" aria-label="Floating label select example">
-                                                        <option selected value="${scoreIncreaseDex}">${scoreIncreaseDex}</option>
+                                                        <option selected value="${scoreIncrease.dexIncreaseFour}">${scoreIncrease.dexIncreaseFour}</option>
                                                         <option value="0">0</option>
                                                         <option value="1">+1</option>
                                                         <option value="2">+2</option>
@@ -224,7 +224,7 @@
                                                 </div></td>
                                                 <td><div class="form-floating mb-3">
                                                     <select name="conIncreaseFour" aria-label="Floating label select example">
-                                                        <option selected value="${scoreIncreaseCon}">${scoreIncreaseCon}</option>
+                                                        <option selected value="${scoreIncrease.conIncreaseFour}">${scoreIncrease.conIncreaseFour}</option>
                                                         <option value="0">0</option>
                                                         <option value="1">+1</option>
                                                         <option value="2">+2</option>
@@ -232,7 +232,7 @@
                                                 </div></td>
                                                 <td><div class="form-floating mb-3">
                                                     <select name="intIncreaseFour" aria-label="Floating label select example">
-                                                        <option selected value="${scoreIncreaseInt}">${scoreIncreaseInt}</option>
+                                                        <option selected value="${scoreIncrease.intIncreaseFour}">${scoreIncrease.intIncreaseFour}</option>
                                                         <option value="0">0</option>
                                                         <option value="1">+1</option>
                                                         <option value="2">+2</option>
@@ -240,7 +240,7 @@
                                                 </div></td>
                                                 <td><div class="form-floating mb-3">
                                                     <select name="wisIncreaseFour" aria-label="Floating label select example">
-                                                        <option selected value="${scoreIncreaseWis}">${scoreIncreaseWis}</option>
+                                                        <option selected value="${scoreIncrease.wisIncreaseFour}">${scoreIncrease.wisIncreaseFour}</option>
                                                         <option value="0">0</option>
                                                         <option value="1">+1</option>
                                                         <option value="2">+2</option>
@@ -248,7 +248,7 @@
                                                 </div></td>
                                                 <td><div class="form-floating mb-3">
                                                     <select name="chaIncreaseFour" aria-label="Floating label select example">
-                                                        <option selected value="${scoreIncreaseCha}">${scoreIncreaseCha}</option>
+                                                        <option selected value="${scoreIncrease.chaIncreaseFour}">${scoreIncrease.chaIncreaseFour}</option>
                                                         <option value="0">0</option>
                                                         <option value="1">+1</option>
                                                         <option value="2">+2</option>

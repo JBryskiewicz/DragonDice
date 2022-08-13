@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "playable_characters")
@@ -41,8 +42,6 @@ public class UserCharacter {
     private Background background;
     @ManyToMany
     private List<Feats> feats;
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, targetEntity = ScoreIncrease.class)
-    private List<ScoreIncrease> scoreIncreases;
 
     @ManyToOne
     private User user;

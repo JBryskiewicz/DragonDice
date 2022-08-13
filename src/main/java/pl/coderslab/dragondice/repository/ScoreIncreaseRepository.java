@@ -6,12 +6,11 @@ import org.springframework.stereotype.Repository;
 import pl.coderslab.dragondice.domain.ScoreIncrease;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ScoreIncreaseRepository extends JpaRepository<ScoreIncrease, Long> {
-
-    @Query(value = "select * from score_increase join playable_characters_score_increases pcsi" +
-            " on score_increase.id = pcsi.score_increases_id where pcsi.user_character_id = ?1", nativeQuery = true)
-    List<ScoreIncrease> findAllByCharacterId(long id);
+    @Query("select si from ScoreIncrease si where si.userCharacter.id = ?1")
+    Optional<ScoreIncrease> findByCharacterId(long id);
 
 }
