@@ -54,6 +54,9 @@ public class AppController {
         model.addAttribute("userName", user.getUserName());
         return "/app/characterSelect";
     }
+
+    //Attributes passed from line 73 to 84 could be also pushed to front and calculated by JS...
+    //... but there is no time before deadline to remake it into Js script
     @GetMapping("/character-sheet/{id}")
     public String charSheet(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
@@ -183,20 +186,24 @@ public class AppController {
         return "/app/characterEditor";
     }
     @GetMapping("/character-editor-result")
-    public String charEditResult(@Valid UserCharacter userCharacter,@Valid ScoreIncrease scoreIncrease, BindingResult result,
+    public String charEditResult(@Valid UserCharacter userCharacter,@Valid ScoreIncrease newIncrease, BindingResult result,
                                  @RequestParam long id, @RequestParam long userId){
+        if (result.hasErrors())
+            return "redirect:/app/character-editor-correction/"+id;
 
         Optional<User> findingUser = userRepository.findById(userId);
+        Optional<ScoreIncrease> existing = scoreIncreaseRepository.findByCharacterId(id);
 
-        if (result.hasErrors()){
-            return "redirect:/app/character-editor-correction/"+id;
-        }else {
-            userCharacter.setUser(findingUser.get());
-            userCharacterService.editUserCharacter(userCharacter);
-            scoreIncrease.setUserCharacter(userCharacter);
-            scoreIncreaseService.editScoreIncrease(scoreIncrease);
-            return "redirect:/app/select";
-        }
+        ScoreIncrease scoreIncrease = existing.isPresent()
+                ? newIncrease.cloneWithOriginalId(existing.get())
+                : newIncrease;
+
+        userCharacter.setUser(findingUser.get());
+        userCharacterService.editUserCharacter(userCharacter);
+        scoreIncrease.setUserCharacter(userCharacter);
+        scoreIncreaseService.editScoreIncrease(scoreIncrease);
+        return "redirect:/app/select";
+
     }
     @GetMapping("/character-delete/{id}")
     public String charDelete(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
@@ -206,9 +213,11 @@ public class AppController {
         return "/app/characterDelete";
     }
 
+    //Due to approach to this problem, character is being delated as orphan of it's score increase. Should not cause...
+    //...any problems and it will be changed in the future during later developement.
     @GetMapping("/character-delete-result/{id}")
     public String charDeleteResult(@PathVariable long id){
-        userCharacterRepository.deleteById(id);
+        scoreIncreaseService.deleteByUserCharacterId(id);
         return "redirect:/app/select";
     }
 }

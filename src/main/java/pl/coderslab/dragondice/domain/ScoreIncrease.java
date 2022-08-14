@@ -1,7 +1,6 @@
 package pl.coderslab.dragondice.domain;
 
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -22,7 +21,7 @@ public class ScoreIncrease {
     private int intIncreaseFour;
     private int wisIncreaseFour;
     private int chaIncreaseFour;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private UserCharacter userCharacter;
 
     public ScoreIncrease(int strIncreaseFour, int dexIncreaseFour, int conIncreaseFour, int intIncreaseFour, int wisIncreaseFour, int chaIncreaseFour) {
@@ -32,6 +31,11 @@ public class ScoreIncrease {
         this.intIncreaseFour = intIncreaseFour;
         this.wisIncreaseFour = wisIncreaseFour;
         this.chaIncreaseFour = chaIncreaseFour;
+    }
+
+    public ScoreIncrease cloneWithOriginalId(ScoreIncrease original) {
+        return new ScoreIncrease(original.id, strIncreaseFour, dexIncreaseFour, conIncreaseFour, intIncreaseFour,
+                wisIncreaseFour, chaIncreaseFour, original.userCharacter);
     }
 
     @Override

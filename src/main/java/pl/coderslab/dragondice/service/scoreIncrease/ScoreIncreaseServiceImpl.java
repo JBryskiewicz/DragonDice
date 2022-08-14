@@ -28,4 +28,9 @@ public class ScoreIncreaseServiceImpl implements ScoreIncreaseService{
     public void editScoreIncrease(ScoreIncrease scoreIncrease) {
         entityManager.merge(scoreIncrease);
     }
+
+    @Override
+    public void deleteByUserCharacterId(long id) {
+        scoreIncreaseRepository.deleteByUserCharacterId(id);
+    }
 }
