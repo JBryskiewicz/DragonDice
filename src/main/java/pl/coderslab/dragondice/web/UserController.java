@@ -3,6 +3,7 @@ package pl.coderslab.dragondice.web;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dragondice.domain.CurrentUser;
 import pl.coderslab.dragondice.domain.User;
@@ -27,7 +28,10 @@ public class UserController {
     }
 
     @PostMapping("/signup-result")
-    public String registerResult(@Valid User user){
+    public String registerResult(@Valid User user, BindingResult result){
+        if (result.hasErrors()){
+            return "redirect:/auth/signup";
+        }
         userService.saveUser(user);
         return "redirect:/auth/signin";
     }

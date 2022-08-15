@@ -154,7 +154,8 @@
                             <%-- THIS PART SHOULD BE HIDDEN UNTIL LEVEL 4 - START --%>
                             <div id="lvl-4" style="display: none">
 
-                                <button type="button" id="lvl-4-feat-carouse" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '4')">None</button>
+                                <button type="button" id="lvl-4-feat-carouse" class="btn btn-primary" data-toggle="button"
+                                        aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '4')">None</button>
 <%--                                <label for="featsBox-4">Feat 4lvl: </label>--%>
 <%--                                <input type="checkbox" id="featsBox-4" class="radio-4" name="a">--%>
 <%--                                <br/>--%>
@@ -241,7 +242,8 @@
                             <%-- THIS PART SHOULD BE HIDDEN UNTIL LEVEL 8 - START --%>
                             <div id="lvl-8" style="display: none">
 
-                                <button type="button" id="lvl-8-feat-carouse" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '8')">None</button>
+                                <button type="button" id="lvl-8-feat-carouse" class="btn btn-primary" data-toggle="button"
+                                        aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '8')">None</button>
 <%--                                <label for="featsBox-8">Feat 8lvl: </label>--%>
 <%--                                <input type="checkbox" id="featsBox-8" class="radio-8" name="c">--%>
 <%--                                <br/>--%>

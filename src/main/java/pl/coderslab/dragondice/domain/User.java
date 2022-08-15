@@ -1,6 +1,10 @@
 package pl.coderslab.dragondice.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import lombok.*;
 
 import java.util.List;
@@ -17,17 +21,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Size(max = 20)
+    @NotNull
     @Column(nullable = false, unique = true, length = 30)
     private String userName;
 
+    @Email
+    @NotNull
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotNull
     @Column(nullable = false)
     private String password;
-
-//    @OneToMany
-//    private List<UserCharacter> userCharacters;
 
     private int enabled;
 

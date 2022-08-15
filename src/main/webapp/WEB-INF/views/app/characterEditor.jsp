@@ -171,13 +171,8 @@
                                     <div id="lvl-4" style="display: block">
                                 </c:otherwise>
                             </c:choose>
-
-                                <label for="featsBox-4">Feat 4lvl: </label>
-                                <input type="checkbox" id="featsBox-4">
-                                <br/>
-                                <label for="scoreBox-4">Increase 4lvl: </label>
-                                <input type="checkbox" id="scoreBox-4">
-
+                                    <button type="button" id="lvl-4-feat-carouse" class="btn btn-primary" data-toggle="button"
+                                            aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '4')">None</button>
                                 <div id="lvl-4-feat" style="display: none">
                                     <div class="form-floating mb-3">
                                         <select name="featFour" class="form-select" id="floatingSelect"
@@ -272,12 +267,8 @@
                                 <div id="lvl-8" style="display: block">
                                 </c:otherwise>
                             </c:choose>
-                                 <label for="featsBox-8">Feat 8lvl: </label>
-                                 <input type="checkbox" id="featsBox-8">
-                                 <br/>
-                                 <label for="scoreBox-8">Increase 8lvl: </label>
-                                 <input type="checkbox" id="scoreBox-8">
-
+                                    <button type="button" id="lvl-8-feat-carouse" class="btn btn-primary" data-toggle="button"
+                                            aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '8')">None</button>
                                  <div id="lvl-8-feat" style="display: none">
                                      <div class="form-floating mb-3">
                                          <select name="featEight" class="form-select" id="floatingSelect"

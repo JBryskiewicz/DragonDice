@@ -30,7 +30,7 @@ public class AppController {
     private final ScoreIncreaseService scoreIncreaseService;
 
     private final int baseTen = 10;
-    private final String CharacterDataErrorMsg = "Please, fill your character's data properly :)";
+    private final String CharacterDataErrorMsg = "Please, fill your character's data properly";
     private List<Feats> featsList;
 
     public AppController(UserCharacterRepository userCharacterRepository,
