@@ -156,11 +156,6 @@
 
                                 <button type="button" id="lvl-4-feat-carouse" class="btn btn-primary" data-toggle="button"
                                         aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '4')">None</button>
-<%--                                <label for="featsBox-4">Feat 4lvl: </label>--%>
-<%--                                <input type="checkbox" id="featsBox-4" class="radio-4" name="a">--%>
-<%--                                <br/>--%>
-<%--                                <label for="scoreBox-4">Increase 4lvl: </label>--%>
-<%--                                <input type="checkbox" id="scoreBox-4" class="radio-4" name="b">--%>
                                 <div id="lvl-4-feat" style="display: none">
                                     <div class="form-floating mb-3">
                                         <select name="featFour" class="form-select" id="floatingSelect"
@@ -244,12 +239,6 @@
 
                                 <button type="button" id="lvl-8-feat-carouse" class="btn btn-primary" data-toggle="button"
                                         aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '8')">None</button>
-<%--                                <label for="featsBox-8">Feat 8lvl: </label>--%>
-<%--                                <input type="checkbox" id="featsBox-8" class="radio-8" name="c">--%>
-<%--                                <br/>--%>
-<%--                                <label for="scoreBox-8">Increase 8lvl: </label>--%>
-<%--                                <input type="checkbox" id="scoreBox-8" class="radio-8" name="d">--%>
-
                                 <div id="lvl-8-feat" style="display: none">
                                     <div class="form-floating mb-3">
                                         <select name="featEight" class="form-select" id="floatingSelect"
