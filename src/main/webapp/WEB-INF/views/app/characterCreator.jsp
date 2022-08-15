@@ -10,7 +10,8 @@
                     <div class="bg-secondary rounded h-100 p-4">
 
                         <form action="/app/character-creator-result" method="get">
-
+                            <p>NOTE: To create new character, name and age field must be filled. Anything else
+                            can be added later in edit window.</p>
                             <div class="bg-secondary rounded h-100 p-4"><h6>Select Ability Score</h6>
                                 <table class="table table-borderless">
                                     <thead>
@@ -150,18 +151,18 @@
                                 <label for="floatingSelect">Select your Race</label>
                             </div>
 
-                            <%-- THIS PART SHOULD BE HIDDEN BEFORE UNTIL LEVEL 4 - START --%>
+                            <%-- THIS PART SHOULD BE HIDDEN UNTIL LEVEL 4 - START --%>
                             <div id="lvl-4" style="display: none">
 
-                                <label for="featsBox">Feat: </label>
-                                <input type="checkbox" id="featsBox">
-                                <br/>
-                                <label for="scoreBox">Increase: </label>
-                                <input type="checkbox" id="scoreBox">
-
+                                <button type="button" id="lvl-4-feat-carouse" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '4')">None</button>
+<%--                                <label for="featsBox-4">Feat 4lvl: </label>--%>
+<%--                                <input type="checkbox" id="featsBox-4" class="radio-4" name="a">--%>
+<%--                                <br/>--%>
+<%--                                <label for="scoreBox-4">Increase 4lvl: </label>--%>
+<%--                                <input type="checkbox" id="scoreBox-4" class="radio-4" name="b">--%>
                                 <div id="lvl-4-feat" style="display: none">
                                     <div class="form-floating mb-3">
-                                        <select name="feats" class="form-select" id="floatingSelect"
+                                        <select name="featFour" class="form-select" id="floatingSelect"
                                         aria-label="Floating label select example">
                                             <option selected></option>
                                             <c:forEach items="${Feats}" var="feat">
@@ -235,7 +236,95 @@
                             </div>
                             </div>
                         </div>
-                        <%-- THIS PART SHOULD BE HIDDEN BEFORE UNTIL LEVEL 4 - END --%>
+                        <%-- THIS PART SHOULD BE HIDDEN UNTIL LEVEL 4 - END --%>
+
+                            <%-- THIS PART SHOULD BE HIDDEN UNTIL LEVEL 8 - START --%>
+                            <div id="lvl-8" style="display: none">
+
+                                <button type="button" id="lvl-8-feat-carouse" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="handleFeatsButton(this, '8')">None</button>
+<%--                                <label for="featsBox-8">Feat 8lvl: </label>--%>
+<%--                                <input type="checkbox" id="featsBox-8" class="radio-8" name="c">--%>
+<%--                                <br/>--%>
+<%--                                <label for="scoreBox-8">Increase 8lvl: </label>--%>
+<%--                                <input type="checkbox" id="scoreBox-8" class="radio-8" name="d">--%>
+
+                                <div id="lvl-8-feat" style="display: none">
+                                    <div class="form-floating mb-3">
+                                        <select name="featEight" class="form-select" id="floatingSelect"
+                                                aria-label="Floating label select example">
+                                            <option selected></option>
+                                            <c:forEach items="${Feats}" var="feat">
+                                                <option value="${feat.id}">${feat.featName}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <label for="floatingSelect">Select a Feat</label>
+                                    </div>
+                                </div>
+
+                                <div id="lvl-8-increase" style="display: none">
+                                    <div class="bg-secondary rounded h-100 p-4"><h6>Ability Score Increase</h6>
+                                        <table class="table table-borderless">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">STR</th>
+                                                <th scope="col">DEX</th>
+                                                <th scope="col">CON</th>
+                                                <th scope="col">INT</th>
+                                                <th scope="col">WIS</th>
+                                                <th scope="col">CHA</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="strIncreaseEight" aria-label="Floating label select example">
+                                                        <option selected value="0">0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="dexIncreaseEight" aria-label="Floating label select example">
+                                                        <option selected value="0">0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="conIncreaseEight" aria-label="Floating label select example">
+                                                        <option selected value="0">0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="intIncreaseEight" aria-label="Floating label select example">
+                                                        <option selected value="0">0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="wisIncreaseEight" aria-label="Floating label select example">
+                                                        <option selected value="0">0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                                <td><div class="form-floating mb-3">
+                                                    <select name="chaIncreaseEight" aria-label="Floating label select example">
+                                                        <option selected value="0">0</option>
+                                                        <option value="1">+1</option>
+                                                        <option value="2">+2</option>
+                                                    </select>
+                                                </div></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <%-- THIS PART SHOULD BE HIDDEN UNTIL LEVEL 8 - END --%>
 
                             <input type="hidden" name="id" value="${userCharacter.id}">
                             <input type="hidden" name="userId" value="${user}">

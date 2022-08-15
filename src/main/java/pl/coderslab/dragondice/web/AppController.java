@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dragondice.domain.*;
+import pl.coderslab.dragondice.mechanics.AbilityScoreSum;
 import pl.coderslab.dragondice.mechanics.ModifiersDefiner;
 import pl.coderslab.dragondice.repository.*;
 import pl.coderslab.dragondice.service.scoreIncrease.ScoreIncreaseService;
@@ -15,7 +16,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/app")
@@ -31,6 +31,7 @@ public class AppController {
 
     private final int baseTen = 10;
     private final String CharacterDataErrorMsg = "Please, fill your character's data properly :)";
+    private List<Feats> featsList;
 
     public AppController(UserCharacterRepository userCharacterRepository,
                          RaceRepository raceRepository, FeatRepository featRepository,
@@ -55,43 +56,31 @@ public class AppController {
         return "/app/characterSelect";
     }
 
-    //Attributes passed from line 73 to 84 could be also pushed to front and calculated by JS...
-    //... but there is no time before deadline to remake it into Js script
     @GetMapping("/character-sheet/{id}")
     public String charSheet(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("userName", user.getUserName());
 
         UserCharacter userCharacter = userCharacterRepository.findById(id).get();
-        Optional<ScoreIncrease> ai = scoreIncreaseRepository.findByCharacterId(id);
+        ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
 
-        ScoreIncrease abilityIncrease = ai.isPresent() ? ai.get() : new ScoreIncrease(0,0,0,0,0,0);
+        AbilityScoreSum abilityScoreSum = new AbilityScoreSum(userCharacterRepository, scoreIncreaseRepository);
 
         model.addAttribute("userCharacter", userCharacter);
         model.addAttribute("scoreIncrease", abilityIncrease);
 
-        model.addAttribute("strMod",
-                ModifiersDefiner.abilityModifier(userCharacter.getStrAbility() + abilityIncrease.getStrIncreaseFour()));
-        model.addAttribute("dexMod",
-                ModifiersDefiner.abilityModifier(userCharacter.getDexAbility() + abilityIncrease.getDexIncreaseFour()));
-        model.addAttribute("conMod",
-                ModifiersDefiner.abilityModifier(userCharacter.getConAbility() + abilityIncrease.getConIncreaseFour()));
-        model.addAttribute("intMod",
-                ModifiersDefiner.abilityModifier(userCharacter.getIntAbility() + abilityIncrease.getIntIncreaseFour()));
-        model.addAttribute("wisMod",
-                ModifiersDefiner.abilityModifier(userCharacter.getWisAbility() + abilityIncrease.getWisIncreaseFour()));
-        model.addAttribute("chaMod",
-                ModifiersDefiner.abilityModifier(userCharacter.getChaAbility() + abilityIncrease.getChaIncreaseFour()));
+        model.addAttribute("strMod", ModifiersDefiner.abilityModifier(abilityScoreSum.strAbilityScore(id)));
+        model.addAttribute("dexMod", ModifiersDefiner.abilityModifier(abilityScoreSum.dexAbilityScore(id)));
+        model.addAttribute("conMod", ModifiersDefiner.abilityModifier(abilityScoreSum.conAbilityScore(id)));
+        model.addAttribute("intMod", ModifiersDefiner.abilityModifier(abilityScoreSum.intAbilityScore(id)));
+        model.addAttribute("wisMod", ModifiersDefiner.abilityModifier(abilityScoreSum.wisAbilityScore(id)));
+        model.addAttribute("chaMod", ModifiersDefiner.abilityModifier(abilityScoreSum.chaAbilityScore(id)));
 
-        model.addAttribute("armorClass",
-                baseTen + ModifiersDefiner.abilityModifier(userCharacter.getDexAbility()));
+        model.addAttribute("armorClass", baseTen + ModifiersDefiner.abilityModifier(abilityScoreSum.dexAbilityScore(id)));
 
-        model.addAttribute("passivePerception",
-                baseTen + ModifiersDefiner.abilityModifier(userCharacter.getWisAbility()));
-        model.addAttribute("passiveInvestigation",
-                baseTen + ModifiersDefiner.abilityModifier(userCharacter.getIntAbility()));
-        model.addAttribute("passiveInsight",
-                baseTen + ModifiersDefiner.abilityModifier(userCharacter.getWisAbility()));
+        model.addAttribute("passivePerception", baseTen + ModifiersDefiner.abilityModifier(abilityScoreSum.wisAbilityScore(id)));
+        model.addAttribute("passiveInvestigation", baseTen + ModifiersDefiner.abilityModifier(abilityScoreSum.intAbilityScore(id)));
+        model.addAttribute("passiveInsight", baseTen + ModifiersDefiner.abilityModifier(abilityScoreSum.wisAbilityScore(id)));
 
         return "/app/characterSheet";
     }
@@ -106,38 +95,34 @@ public class AppController {
         model.addAttribute("userCharacter", new UserCharacter());
         return "/app/characterCreator";
     }
-    @GetMapping("/character-creator-correction")
-    public String charCreatorWithError(Model model, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("user", user.getId());
-        model.addAttribute("userName", user.getUserName());
-        model.addAttribute("Race", raceRepository.findAll());
-        model.addAttribute("Feats", featRepository.findAll());
-        model.addAttribute("Background", backgroundRepository.findAll());
-        model.addAttribute("userCharacter", new UserCharacter());
-        model.addAttribute("errorMsg", CharacterDataErrorMsg);
-        return "/app/characterCreator";
-    }
+
     @GetMapping("/character-creator-result")
-    public String charCreatorResult(@Valid UserCharacter userCharacter,@Valid ScoreIncrease scoreIncrease, BindingResult result,
-                                    @RequestParam String feats, @RequestParam long userId){
+    public String charCreatorResult(@Valid UserCharacter userCharacter, BindingResult result, ScoreIncrease scoreIncrease,
+                                    @RequestParam long userId, @RequestParam String featFour, @RequestParam String featEight){
+        if (result.hasErrors()){
+            return "redirect:/app/character-creator/";
+        }
 
         User findUser = userRepository.findById(userId).get();
-        if (result.hasErrors()){
-            return "redirect:/app/character-creator-correction";
+        featsList = new ArrayList<>();
+        if(featFour.isBlank() && featEight.isBlank()){
+            userCharacter.setFeats(featsList);
+        }else if(featEight.isBlank()){
+            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
+            userCharacter.setFeats(featsList);
+        }else if(featFour.isBlank()){
+            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
+            userCharacter.setFeats(featsList);
+        }else {
+            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
+            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
+            userCharacter.setFeats(featsList);
         }
-        if (userCharacter.getFeats().isEmpty()){
-            userCharacter.setUser(findUser);
-            userCharacterService.saveUserCharacter(userCharacter);
-            scoreIncrease.setUserCharacter(userCharacter);
-            scoreIncreaseService.saveScoreIncrease(scoreIncrease);
-        }else { //TODO REMINDER ABOUT ALL FEATS IMPLEMENTATION AND MODIFICATION OF THIS PART \/
-            Optional<Feats> feat = featRepository.findById(Long.parseLong(feats));
-            List<Feats> featsList = new ArrayList<>();
-            featsList.add(feat.get());
-            userCharacter.setUser(findUser);
-            userCharacterService.saveUserCharacter(userCharacter);
-        }
+        userCharacter.setUser(findUser);
+        userCharacterService.saveUserCharacter(userCharacter);
+        scoreIncrease.setUserCharacter(userCharacter);
+        scoreIncreaseService.saveScoreIncrease(scoreIncrease);
+
         return "redirect:/app/select";
     }
     @GetMapping("/character-editor/{id}")
@@ -150,33 +135,9 @@ public class AppController {
         model.addAttribute("Background", backgroundRepository.findAll());
         model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
 
-        List<Feats> featsList = userCharacterRepository.findById(id).get().getFeats();
+        featsList = userCharacterRepository.findById(id).get().getFeats();
         model.addAttribute("characterFeatName", featsList.stream()
-                .map(e -> e.getFeatName())
-                .collect(Collectors.joining()));
-        model.addAttribute("characterFeatId", featsList.stream()
-                .map(e -> e.getId()).toArray());
-
-        ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
-        model.addAttribute("scoreIncrease", abilityIncrease);
-
-        return "/app/characterEditor";
-    }
-    @GetMapping("/character-editor-correction/{id}")
-    public String charEditWithError(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
-        model.addAttribute("user", user.getId());
-        model.addAttribute("Race", raceRepository.findAll());
-        model.addAttribute("Feats", featRepository.findAll());
-        model.addAttribute("Background", backgroundRepository.findAll());
-        model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
-        model.addAttribute("errorMsg", CharacterDataErrorMsg);
-
-        List<Feats> featsList = userCharacterRepository.findById(id).get().getFeats();
-        model.addAttribute("characterFeatName", featsList.stream()
-                .map(e -> e.getFeatName())
-                .collect(Collectors.joining()));
+                .map(e -> e.getFeatName()).toArray());
         model.addAttribute("characterFeatId", featsList.stream()
                 .map(e -> e.getId()).toArray());
 
@@ -186,10 +147,27 @@ public class AppController {
         return "/app/characterEditor";
     }
     @GetMapping("/character-editor-result")
-    public String charEditResult(@Valid UserCharacter userCharacter,@Valid ScoreIncrease newIncrease, BindingResult result,
-                                 @RequestParam long id, @RequestParam long userId){
-        if (result.hasErrors())
-            return "redirect:/app/character-editor-correction/"+id;
+    public String charEditResult(@Valid UserCharacter userCharacter, BindingResult result, ScoreIncrease newIncrease,
+                                 @RequestParam long id, @RequestParam long userId, @RequestParam String featFour,
+                                 @RequestParam String featEight){
+        if (result.hasErrors()) {
+            return "redirect:/app/character-editor/" + id;
+        }
+
+        featsList = new ArrayList<>();
+        if(featFour.isBlank() && featEight.isBlank()){
+            userCharacter.setFeats(featsList);
+        }else if(featEight.isBlank()){
+            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
+            userCharacter.setFeats(featsList);
+        }else if(featFour.isBlank()){
+            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
+            userCharacter.setFeats(featsList);
+        }else {
+            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
+            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
+            userCharacter.setFeats(featsList);
+        }
 
         Optional<User> findingUser = userRepository.findById(userId);
         Optional<ScoreIncrease> existing = scoreIncreaseRepository.findByCharacterId(id);
@@ -213,8 +191,9 @@ public class AppController {
         return "/app/characterDelete";
     }
 
-    //Due to approach to this problem, character is being delated as orphan of it's score increase. Should not cause...
-    //...any problems and it will be changed in the future during later developement.
+    /*Due to approach to this problem, character is being deleted as orphan of it's score increase. It should not cause
+    any problems since every character must have their increases even if they are just 0s. It will be changed in the
+    future during later developement for something more efficient. */
     @GetMapping("/character-delete-result/{id}")
     public String charDeleteResult(@PathVariable long id){
         scoreIncreaseService.deleteByUserCharacterId(id);

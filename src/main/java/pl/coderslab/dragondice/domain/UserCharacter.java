@@ -1,6 +1,8 @@
 package pl.coderslab.dragondice.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;;
 import lombok.*;
 import org.springframework.lang.Nullable;
@@ -20,6 +22,7 @@ public class UserCharacter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int charLevel;
+    @NotBlank
     private String charName;
     private int charAge;
     private String charAlignment;
