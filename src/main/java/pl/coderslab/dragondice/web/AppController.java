@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@Validated
 @RequestMapping("/app")
 public class AppController {
     private final UserCharacterRepository userCharacterRepository;

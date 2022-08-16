@@ -70,8 +70,8 @@
                         <a href="/feats/feat-creator" class="dropdown-item">Create Feat</a>
                         <a href="/feats/list" class="dropdown-item">Feat List</a>
                         <br/>
-                        <a href="#" class="dropdown-item">Create Background</a>
-                        <a href="#" class="dropdown-item">Background List</a>
+                        <a href="/background/background-creator" class="dropdown-item">Create Background</a>
+                        <a href="/background/list" class="dropdown-item">Background List</a>
                     </div>
                 </div>
             </div>

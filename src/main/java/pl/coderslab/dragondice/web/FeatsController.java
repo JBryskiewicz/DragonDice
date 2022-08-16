@@ -19,7 +19,6 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@Validated
 @RequestMapping("/feats")
 public class FeatsController {
     private final FeatRepository featRepository;

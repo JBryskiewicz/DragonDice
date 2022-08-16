@@ -24,7 +24,7 @@ public class UserCharacter {
     private int charLevel;
     @NotBlank
     private String charName;
-    @NotBlank
+    @NotNull
     private int charAge;
     private String charAlignment;
     @Size(max = 2000)

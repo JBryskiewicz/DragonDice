@@ -16,7 +16,6 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@Validated
 @RequestMapping("/race")
 public class RaceController {
     private final RaceRepository raceRepository;
