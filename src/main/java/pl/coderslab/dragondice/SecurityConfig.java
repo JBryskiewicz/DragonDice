@@ -25,6 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/app/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/race/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/feats/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/background/**").hasAnyRole("USER","ADMIN")
                 .and().formLogin().loginPage("/auth/signin").defaultSuccessUrl("/app/select")
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
                 .logoutSuccessUrl("/homepage")

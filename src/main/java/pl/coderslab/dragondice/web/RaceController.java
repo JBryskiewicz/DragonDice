@@ -12,7 +12,6 @@ import pl.coderslab.dragondice.domain.User;
 import pl.coderslab.dragondice.repository.RaceRepository;
 import pl.coderslab.dragondice.service.race.RaceService;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -66,16 +65,12 @@ public class RaceController {
     @GetMapping("/race-editor-result")
     public String EditRaceResult(@Valid Race changedRace, BindingResult result, @RequestParam long id){
         if(result.hasErrors()){
-            return "redirect:/race/race-creator/";
+            return "redirect:/race/race-editor/";
         }
-        Optional<Race> checkrace = raceRepository.findById(id);
-        System.out.println(checkrace.get().getId());
-
         Optional<Race> existing = raceRepository.findById(id);
         Race race = existing.isPresent()
                 ? changedRace.cloneWithOriginalId(existing.get())
                 : changedRace;
-
         raceService.editRace(race);
         return "redirect:/race/list";
     }

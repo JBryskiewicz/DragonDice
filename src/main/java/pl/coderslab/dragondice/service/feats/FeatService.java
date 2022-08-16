@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import pl.coderslab.dragondice.domain.Feats;
 public interface FeatService {
 
-    void save(Feats feats);
+    void saveFeat(Feats feats);
+    void editFeat(Feats feats);
+    void removeFeat(long id);
 
 }
