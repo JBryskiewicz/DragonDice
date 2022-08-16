@@ -1,6 +1,7 @@
 package pl.coderslab.dragondice.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,9 +20,9 @@ public class Background {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private long id;
-        @NotNull
+        @NotBlank
         private String backgroundName;
-        @NotNull
+        @NotBlank
         @Size(max = 500)
         private String description;
 

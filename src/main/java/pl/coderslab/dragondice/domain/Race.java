@@ -3,6 +3,7 @@ package pl.coderslab.dragondice.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
@@ -18,9 +19,9 @@ public class Race {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotNull
+    @NotBlank
     private String raceName;
-    @NotNull
+    @NotBlank
     @Size(max = 500)
     private String raceFeatures;
     @NotNull

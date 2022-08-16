@@ -3,6 +3,7 @@ package pl.coderslab.dragondice.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -17,9 +18,9 @@ public class Feats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotNull
+    @NotBlank
     private String featName;
-    @NotNull
+    @NotBlank
     private String description;
 
     public Feats(String featName, String description){
