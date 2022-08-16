@@ -102,6 +102,17 @@
         </h6>
       </div>
 
+      <br/>
+
+      <div class="bg-secondary text-center rounded p-4">
+        <h6>
+          16.08.2022 - Background, feats and race basics are added:<br/>
+          - full CRUD for functions mentioned above, currently not user / role separated<br/>
+          - errors and bug fixes<br/>
+          - big project restructure included
+        </h6>
+      </div>
+
     </div>
     <!-- News Panel End -->
 
