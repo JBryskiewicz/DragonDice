@@ -5,27 +5,23 @@
 <%@include file="../_header_sidebars.jsp" %>
 
 
-        <!-- Character Window Start -->
+        <!-- Race Window Start -->
 
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
-                <c:forEach items="${userCharacter}" var="character">
+                <c:forEach items="${Races}" var="race">
                 <div class="col-sm-12 col-md-6 col-xl-4">
                     <div class="h-100 bg-secondary rounded p-4">
                         <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="/resources/img/gix.png" alt="" style="width: 100px; height: 100px;">
                             <div class="w-100 ms-3">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">${character.charName}</h6>
+                                    <h6 class="mb-0">${race.raceName}</h6>
                                 </div>
-                                <span>Level: ${character.charLevel}</span><br/>
-                                <span>Race: ${character.race.raceName}</span><br/>
-                                <span>Class: Rogue / Scout</span>
-
+                                <br/>
                                 <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <a href="/app/character-sheet/${character.id}">view</a>
-                                    <a href="/app/character-editor/${character.id}">edit</a>
-                                    <a href="/app/character-delete/${character.id}">delete</a>
+                                    <a href="/race/race-details/${race.id}">view</a>
+                                    <a href="/race/race-editor/${race.id}">edit</a>
+                                    <a href="/race/delete/${race.id}">delete</a>
                                 </div>
                             </div>
                         </div>
@@ -35,6 +31,6 @@
             </div>
         </div>
 
-            <!-- Character Window End -->
+            <!-- Race Window End -->
 
 <%@include file="../_footer.jsp" %>

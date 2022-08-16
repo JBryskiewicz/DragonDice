@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@include file="_header_sidebars.jsp" %>
+<%@include file="../_header_sidebars.jsp" %>
 
         <!-- Character Info Start -->
         <div class="container-fluid pt-4 px-4">
@@ -174,4 +174,4 @@
         </div>
         <!-- Skills and saving throws end-->
 
-<%@include file="_footer.jsp" %>
+<%@include file="../_footer.jsp" %>

@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/app/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/race/**").hasAnyRole("USER","ADMIN")
                 .and().formLogin().loginPage("/auth/signin").defaultSuccessUrl("/app/select")
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
                 .logoutSuccessUrl("/homepage")

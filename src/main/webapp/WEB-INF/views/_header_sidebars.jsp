@@ -56,15 +56,22 @@
                 <a href="/app/select" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Characters</a>
                 <a href="/app/character-creator" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Create Character</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>Homebrews</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>Content</a>
                     <div class="dropdown-menu bg-transparent border-0">
-                        <a href="#" class="dropdown-item">Custom Class</a>
-                        <a href="#" class="dropdown-item">Custom Subclass</a>
-                        <a href="#" class="dropdown-item">Custom Race</a>
-                        <a href="#" class="dropdown-item">Custom Feat</a>
-                        <a href="#" class="dropdown-item">Custom Background</a>
-                        <a href="#" class="dropdown-item">Custom Item</a>
-                        <a href="#" class="dropdown-item">Custom Spell</a>
+                        <a href="#" class="dropdown-item">Create Class</a>
+                        <a href="#" class="dropdown-item">Class List</a>
+                        <br/>
+                        <a href="#" class="dropdown-item">Create Subclass</a>
+                        <a href="#" class="dropdown-item">Subclass List</a>
+                        <br/>
+                        <a href="/race/race-creator" class="dropdown-item">Create Race</a>
+                        <a href="/race/list" class="dropdown-item">Race List</a>
+                        <br/>
+                        <a href="#" class="dropdown-item">Create Feat</a>
+                        <a href="#" class="dropdown-item">Feat List</a>
+                        <br/>
+                        <a href="#" class="dropdown-item">Create Background</a>
+                        <a href="#" class="dropdown-item">Background List</a>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dragondice.domain.*;
 import pl.coderslab.dragondice.mechanics.AbilityScoreSum;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@Validated
 @RequestMapping("/app")
 public class AppController {
     private final UserCharacterRepository userCharacterRepository;
@@ -30,7 +32,6 @@ public class AppController {
     private final ScoreIncreaseService scoreIncreaseService;
 
     private final int baseTen = 10;
-    private final String CharacterDataErrorMsg = "Please, fill your character's data properly";
     private List<Feats> featsList;
 
     public AppController(UserCharacterRepository userCharacterRepository,

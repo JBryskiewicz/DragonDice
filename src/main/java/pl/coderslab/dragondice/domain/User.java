@@ -21,17 +21,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Size(max = 20)
-    @NotNull
-    @Column(nullable = false, unique = true, length = 30)
+    @Size(max = 20, message = "Username cannot be longer than 20 characters")
+    @NotNull(message = "Username required")
+    @Column(nullable = false, unique = true)
     private String userName;
 
     @Email
-    @NotNull
+    @NotNull(message = "Email required")
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotNull
+    @NotNull(message = "Password required")
     @Column(nullable = false)
     private String password;
 

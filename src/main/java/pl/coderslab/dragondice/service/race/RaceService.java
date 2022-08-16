@@ -7,4 +7,6 @@ public interface RaceService {
 
     void saveRace(Race race);
 
+    void editRace(Race race);
+    void removeRace(long id);
 }
