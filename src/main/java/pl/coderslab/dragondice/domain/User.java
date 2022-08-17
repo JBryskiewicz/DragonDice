@@ -2,6 +2,7 @@ package pl.coderslab.dragondice.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -21,17 +22,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Size(max = 20, message = "Username cannot be longer than 20 characters")
-    @NotNull(message = "Username required")
+    @Size(max = 20)
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String userName;
 
-    @Email
-    @NotNull(message = "Email required")
+
+    @NotBlank
     @Column(nullable = false, unique = true)
+    @Email
     private String email;
 
-    @NotNull(message = "Password required")
+    @NotBlank
     @Column(nullable = false)
     private String password;
 

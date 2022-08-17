@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/signup-result")
     public String registerResult(@Valid User user, BindingResult result){
         if (result.hasErrors()){
-            return "redirect:/auth/signup";
+            return "/auth/register";
         }
         userService.saveUser(user);
         return "redirect:/auth/signin";
