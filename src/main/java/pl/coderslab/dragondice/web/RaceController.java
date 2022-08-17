@@ -28,30 +28,26 @@ public class RaceController {
     }
     @GetMapping("/list")
     public String RaceList(Model model, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("Races", raceRepository.findAll());
         return "/race/raceList";
     }
     @GetMapping("/race-details/{id}")
     public String RaceDetails(Model model, @AuthenticationPrincipal CurrentUser currentUser, @PathVariable long id){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("Race", raceRepository.findById(id).get());
         return "/race/raceDetails";
     }
     @GetMapping("/race-creator")
     public String CreateRace(Model model, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("race", new Race());
         return "/race/raceCreator";
     }
     @GetMapping("/race-creator-result")
     public String CreateRaceResult(@Valid Race race, BindingResult result, Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            User user = currentUser.getUser();
-            model.addAttribute("userName", user.getUserName());
+            userInfoSupportMethod(model, currentUser);
             return "/race/raceCreator";
         }
         raceService.saveRace(race);
@@ -59,8 +55,7 @@ public class RaceController {
     }
     @GetMapping("/race-editor/{id}")
     public String EditRace(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("race", raceRepository.findById(id).get());
         return "race/raceEditor";
     }
@@ -68,8 +63,7 @@ public class RaceController {
     public String EditRaceResult(@Valid Race changedRace, BindingResult result, @RequestParam long id, Model model,
                                  @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            User user = currentUser.getUser();
-            model.addAttribute("userName", user.getUserName());
+            userInfoSupportMethod(model, currentUser);
             return "race/raceEditor";
         }
         Optional<Race> existing = raceRepository.findById(id);
@@ -81,8 +75,7 @@ public class RaceController {
     }
     @GetMapping("/delete/{id}")
     public String RemoveRace(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("Race", raceRepository.findById(id).get());
         return "race/raceDelete";
     }
@@ -90,5 +83,11 @@ public class RaceController {
     public String RemoveRaceResult(@PathVariable long id){
         raceService.removeRace(id);
         return "redirect:/race/list";
+    }
+
+    /* !Support methods for this controller! */
+    public void userInfoSupportMethod(Model model, @AuthenticationPrincipal CurrentUser currentUser){
+        User user = currentUser.getUser();
+        model.addAttribute("userName", user.getUserName());
     }
 }

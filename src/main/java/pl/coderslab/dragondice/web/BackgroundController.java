@@ -4,7 +4,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,22 +30,19 @@ public class BackgroundController {
 
     @GetMapping("/list")
     public String BackgroundList(Model model, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("Background", backgroundRepository.findAll());
         return "/background/backgroundList";
     }
     @GetMapping("/background-details/{id}")
     public String BackgroundDetails(Model model, @AuthenticationPrincipal CurrentUser currentUser, @PathVariable long id){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("Background", backgroundRepository.findById(id).get());
         return "/background/backgroundDetails";
     }
     @GetMapping("/background-creator")
     public String CreateBackground(Model model, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("background", new Background());
         return "/background/backgroundCreator";
     }
@@ -54,8 +50,7 @@ public class BackgroundController {
     public String CreateBackgroundResult(@Valid Background background, BindingResult result, Model model,
                                          @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            User user = currentUser.getUser();
-            model.addAttribute("userName", user.getUserName());
+            userInfoSupportMethod(model, currentUser);
             return "/background/backgroundCreator";
         }
         backgroundService.saveBackground(background);
@@ -63,8 +58,7 @@ public class BackgroundController {
     }
     @GetMapping("/background-editor/{id}")
     public String EditBackground(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("background", backgroundRepository.findById(id).get());
         return "background/backgroundEditor";
     }
@@ -72,8 +66,7 @@ public class BackgroundController {
     public String EditBackgroundResult(@Valid Background changedBackground, BindingResult result, @RequestParam long id,
                                        Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            User user = currentUser.getUser();
-            model.addAttribute("userName", user.getUserName());
+            userInfoSupportMethod(model, currentUser);
             return "background/backgroundEditor";
         }
         Optional<Background> existing = backgroundRepository.findById(id);
@@ -85,8 +78,7 @@ public class BackgroundController {
     }
     @GetMapping("/delete/{id}")
     public String RemoveBackground(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("Background", backgroundRepository.findById(id).get());
         return "background/backgroundDelete";
     }
@@ -94,5 +86,11 @@ public class BackgroundController {
     public String RemoveBackgroundResult(@PathVariable long id){
         backgroundService.removeBackgroundById(id);
         return "redirect:/background/list";
+    }
+
+    /* !Support methods for this controller! */
+    public void userInfoSupportMethod(Model model, @AuthenticationPrincipal CurrentUser currentUser){
+        User user = currentUser.getUser();
+        model.addAttribute("userName", user.getUserName());
     }
 }

@@ -51,15 +51,14 @@ public class AppController {
     @GetMapping("/select")
     public String charSelect(Model model, @AuthenticationPrincipal CurrentUser currentUser) {
         User user = currentUser.getUser();
-        model.addAttribute("userCharacter", userCharacterRepository.findAllByUserId(user.getId()));
         model.addAttribute("userName", user.getUserName());
+        model.addAttribute("userCharacter", userCharacterRepository.findAllByUserId(user.getId()));
         return "/app/characterSelect";
     }
 
     @GetMapping("/character-sheet/{id}")
     public String charSheet(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser) {
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
 
         UserCharacter userCharacter = userCharacterRepository.findById(id).get();
         ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
@@ -105,6 +104,7 @@ public class AppController {
             return "/app/characterCreator";
         }
         User findUser = userRepository.findById(userId).get();
+
         featsCheckSupportMethod(featFour, featEight, userCharacter);
 
         userCharacter.setUser(findUser);
@@ -150,8 +150,7 @@ public class AppController {
 
     @GetMapping("/character-delete/{id}")
     public String charDelete(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser) {
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
         return "/app/characterDelete";
     }
@@ -166,6 +165,11 @@ public class AppController {
     }
 
     /* ! Support methods for app controllers ! */
+
+    public void userInfoSupportMethod(Model model, @AuthenticationPrincipal CurrentUser currentUser){
+        User user = currentUser.getUser();
+        model.addAttribute("userName", user.getUserName());
+    }
 
     public void creatorAndEditorSupportMethod(Model model, @AuthenticationPrincipal CurrentUser currentUser) {
         User user = currentUser.getUser();

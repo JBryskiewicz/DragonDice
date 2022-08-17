@@ -29,30 +29,26 @@ public class FeatsController {
     }
     @GetMapping("/list")
     public String FeatList(Model model, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("Feats", featRepository.findAll());
         return "/feats/featsList";
     }
     @GetMapping("/feat-details/{id}")
     public String FeatDetails(Model model, @AuthenticationPrincipal CurrentUser currentUser, @PathVariable long id){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("Feat", featRepository.findById(id).get());
         return "/feats/featDetails";
     }
     @GetMapping("/feat-creator")
     public String CreateFeat(Model model, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("feats", new Feats());
         return "/feats/featCreator";
     }
     @GetMapping("/feat-creator-result")
     public String CreateFeatResult(@Valid Feats feats, BindingResult result, Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            User user = currentUser.getUser();
-            model.addAttribute("userName", user.getUserName());
+            userInfoSupportMethod(model, currentUser);
             return "/feats/featCreator";
         }
         featService.saveFeat(feats);
@@ -60,8 +56,7 @@ public class FeatsController {
     }
     @GetMapping("/feat-editor/{id}")
     public String EditFeat(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("feats", featRepository.findById(id).get());
         return "feats/featEditor";
     }
@@ -69,8 +64,7 @@ public class FeatsController {
     public String EditFeatResult(@Valid Feats changedFeat, BindingResult result, @RequestParam long id, Model model,
                                  @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            User user = currentUser.getUser();
-            model.addAttribute("userName", user.getUserName());
+            userInfoSupportMethod(model, currentUser);
             return "feats/featEditor";
         }
         Optional<Feats> existing = featRepository.findById(id);
@@ -82,8 +76,7 @@ public class FeatsController {
     }
     @GetMapping("/delete/{id}")
     public String RemoveFeat(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
+        userInfoSupportMethod(model, currentUser);
         model.addAttribute("Feat", featRepository.findById(id).get());
         return "feats/featDelete";
     }
@@ -91,5 +84,11 @@ public class FeatsController {
     public String RemoveRaceResult(@PathVariable long id){
         featService.removeFeat(id);
         return "redirect:/feats/list";
+    }
+
+    /* !Support methods for this controller! */
+    public void userInfoSupportMethod(Model model, @AuthenticationPrincipal CurrentUser currentUser){
+        User user = currentUser.getUser();
+        model.addAttribute("userName", user.getUserName());
     }
 }
