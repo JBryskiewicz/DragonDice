@@ -1,5 +1,6 @@
 package pl.coderslab.dragondice.web;
 
+import org.springframework.boot.Banner;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,9 +48,11 @@ public class RaceController {
         return "/race/raceCreator";
     }
     @GetMapping("/race-creator-result")
-    public String CreateRaceResult(@Valid Race race, BindingResult result){
+    public String CreateRaceResult(@Valid Race race, BindingResult result, Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            return "redirect:/race/race-creator/";
+            User user = currentUser.getUser();
+            model.addAttribute("userName", user.getUserName());
+            return "/race/raceCreator";
         }
         raceService.saveRace(race);
         return "redirect:/race/list";
@@ -58,13 +61,16 @@ public class RaceController {
     public String EditRace(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("userName", user.getUserName());
-        model.addAttribute("Race", raceRepository.findById(id).get());
+        model.addAttribute("race", raceRepository.findById(id).get());
         return "race/raceEditor";
     }
     @GetMapping("/race-editor-result")
-    public String EditRaceResult(@Valid Race changedRace, BindingResult result, @RequestParam long id){
+    public String EditRaceResult(@Valid Race changedRace, BindingResult result, @RequestParam long id, Model model,
+                                 @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            return "redirect:/race/race-editor/";
+            User user = currentUser.getUser();
+            model.addAttribute("userName", user.getUserName());
+            return "race/raceEditor";
         }
         Optional<Race> existing = raceRepository.findById(id);
         Race race = existing.isPresent()

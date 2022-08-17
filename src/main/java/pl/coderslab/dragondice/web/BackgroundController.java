@@ -47,13 +47,16 @@ public class BackgroundController {
     public String CreateBackground(Model model, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("userName", user.getUserName());
-        model.addAttribute("Background", new Background());
+        model.addAttribute("background", new Background());
         return "/background/backgroundCreator";
     }
     @GetMapping("/background-creator-result")
-    public String CreateBackgroundResult(@Valid Background background, BindingResult result){
+    public String CreateBackgroundResult(@Valid Background background, BindingResult result, Model model,
+                                         @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            return "redirect:/background/background-creator/";
+            User user = currentUser.getUser();
+            model.addAttribute("userName", user.getUserName());
+            return "/background/backgroundCreator";
         }
         backgroundService.saveBackground(background);
         return "redirect:/background/list";
@@ -62,13 +65,16 @@ public class BackgroundController {
     public String EditBackground(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("userName", user.getUserName());
-        model.addAttribute("Background", backgroundRepository.findById(id).get());
+        model.addAttribute("background", backgroundRepository.findById(id).get());
         return "background/backgroundEditor";
     }
     @GetMapping("/background-editor-result")
-    public String EditBackgroundResult(@Valid Background changedBackground, BindingResult result, @RequestParam long id){
+    public String EditBackgroundResult(@Valid Background changedBackground, BindingResult result, @RequestParam long id,
+                                       Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            return "redirect:/race/race-editor/";
+            User user = currentUser.getUser();
+            model.addAttribute("userName", user.getUserName());
+            return "background/backgroundEditor";
         }
         Optional<Background> existing = backgroundRepository.findById(id);
         Background background = existing.isPresent()

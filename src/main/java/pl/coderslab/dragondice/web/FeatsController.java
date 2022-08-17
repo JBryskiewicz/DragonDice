@@ -4,7 +4,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,13 +45,15 @@ public class FeatsController {
     public String CreateFeat(Model model, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("userName", user.getUserName());
-        model.addAttribute("feat", new Feats());
+        model.addAttribute("feats", new Feats());
         return "/feats/featCreator";
     }
     @GetMapping("/feat-creator-result")
-    public String CreateFeatResult(@Valid Feats feats, BindingResult result){
+    public String CreateFeatResult(@Valid Feats feats, BindingResult result, Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            return "redirect:/feats/feat-creator/";
+            User user = currentUser.getUser();
+            model.addAttribute("userName", user.getUserName());
+            return "/feats/featCreator";
         }
         featService.saveFeat(feats);
         return "redirect:/feats/list";
@@ -61,13 +62,16 @@ public class FeatsController {
     public String EditFeat(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
         User user = currentUser.getUser();
         model.addAttribute("userName", user.getUserName());
-        model.addAttribute("Feat", featRepository.findById(id).get());
+        model.addAttribute("feats", featRepository.findById(id).get());
         return "feats/featEditor";
     }
     @GetMapping("/feat-editor-result")
-    public String EditFeatResult(@Valid Feats changedFeat, BindingResult result, @RequestParam long id){
+    public String EditFeatResult(@Valid Feats changedFeat, BindingResult result, @RequestParam long id, Model model,
+                                 @AuthenticationPrincipal CurrentUser currentUser){
         if(result.hasErrors()){
-            return "redirect:/feats/feat-editor/";
+            User user = currentUser.getUser();
+            model.addAttribute("userName", user.getUserName());
+            return "feats/featEditor";
         }
         Optional<Feats> existing = featRepository.findById(id);
         Feats feats = existing.isPresent()

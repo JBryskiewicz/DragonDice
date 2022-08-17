@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@include file="../_header_sidebars.jsp" %>
@@ -9,7 +10,7 @@
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-secondary rounded h-100 p-4">
 
-                        <form action="/app/character-editor-result" method="get">
+                        <form:form modelAttribute="userCharacter" action="/app/character-editor-result" method="get">
 
                             <div class="bg-secondary rounded h-100 p-4"><h6>Select Ability Score</h6>
                                 <table class="table table-borderless">
@@ -368,20 +369,23 @@
                         <div class="bg-secondary rounded h-100 p-4">
                             <div class="form-floating mb-3">
                                 <!-- !character name input! -->
-                                <input type="input" name="charName" class="form-control" id="floatingInput"
-                                       placeholder="Character Name" value="${userCharacter.charName}">
+                                <form:input path="charName" cssClass="form-control" id="floatingInput"
+                                            placeholder="Character Name" value="${userCharacter.charName}"/>
+                                <form:errors path="charName" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingInput">Character Name</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !character age input! -->
-                                <input type="input" name="charAge" class="form-control" id="floatingInput"
-                                       placeholder="Character Age" value="${userCharacter.charAge}">
+                                <form:input path="charAge" cssClass="form-control" id="floatingInput"
+                                            placeholder="Character Age" value="${userCharacter.charAge}"/>
+                                <form:errors path="charAge" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingInput">Character Age</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !character backstory input! -->
-                                <textarea class="form-control" name="backstory" placeholder="Backstory"
-                                          id="floatingTextarea" style="height: 300px;">${userCharacter.backstory}</textarea>
+                                <form:textarea path="backstory" cssClass="form-control" placeholder="Backstory"
+                                               id="floatingTextarea" cssStyle="height: 300px;" value="${userCharacter.backstory}"></form:textarea>
+                                <form:errors path="backstory" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingTextarea">Backstory</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -411,7 +415,9 @@
                                 <label for="floatingSelect">Select your background</label>
                             </div>
                         </div>
-                        </form>
+
+                        </form:form>
+
                     </div>
                 </div>
             </div>

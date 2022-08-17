@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@include file="../_header_sidebars.jsp" %>
@@ -9,7 +10,8 @@
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-secondary rounded h-100 p-4">
 
-                        <form action="/app/character-creator-result" method="get">
+                        <form:form modelAttribute="userCharacter" action="/app/character-creator-result" method="get">
+
                             <p>NOTE: To create new character, name and age field must be filled. Anything else
                             can be added later in edit window.</p>
                             <div class="bg-secondary rounded h-100 p-4"><h6>Select Ability Score</h6>
@@ -330,17 +332,21 @@
                         <div class="bg-secondary rounded h-100 p-4">
                             <div class="form-floating mb-3">
                                 <!-- !character name input! -->
-                                <input type="input" name="charName" class="form-control" id="floatingInput" placeholder="Character Name">
+                                <form:input path="charName" cssClass="form-control" id="floatingInput" placeholder="Character Name"/>
+                                <form:errors path="charName" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingInput">Character Name</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !character age input! -->
-                                <input type="input" name="charAge" class="form-control" id="floatingInput" placeholder="Character Age">
+                                <form:input path="charAge" cssClass="form-control" id="floatingInput" placeholder="Character Age"/>
+                                <form:errors path="charAge" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingInput">Character Age</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !character backstory input! -->
-                                <textarea class="form-control" name="backstory" placeholder="Backstory" id="floatingTextarea" style="height: 300px;"></textarea>
+                                <form:textarea path="backstory" cssClass="form-control" placeholder="Backstory"
+                                               id="floatingTextarea" cssStyle="height: 300px;"></form:textarea>
+                                <form:errors path="backstory" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingTextarea">Backstory</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -370,7 +376,9 @@
                                 <label for="floatingSelect">Select your background</label>
                             </div>
                         </div>
-                        </form>
+
+                        </form:form>
+
                     </div>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@include file="../_header_sidebars.jsp" %>
@@ -8,22 +9,30 @@
             <div class="row g-4">
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-secondary rounded h-100 p-4">
-                        <form action="/feats/feat-creator-result">
+
+                        <form:form modelAttribute="feats" action="/feats/feat-creator-result" method="get">
+
                         <div class="bg-secondary rounded h-100 p-4">
                             <p>All fields must be filled to create feat and description cannot be longer than 500 characters.</p>
                             <div class="form-floating mb-3">
                                 <!-- !race name input! -->
-                                <input type="input" name="featName" class="form-control" id="floatingInput" placeholder="Feat Name">
+                                <form:input path="featName" cssClass="form-control" id="floatingInput"
+                                        placeholder="Feat Name"/>
+                                <form:errors path="featName" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingInput">Feat Name</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !features input! -->
-                                <textarea class="form-control" name="description" placeholder="Description" id="floatingTextarea" style="height: 300px;"></textarea>
+                            <form:textarea path="description" cssClass="form-control" placeholder="Description"
+                                           id="floatingTextarea" cssStyle="height: 300px;"></form:textarea>
+                            <form:errors path="description" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingTextarea">Description</label>
                             </div>
                             <button type="submit" class="btn btn-primary">Create</button>
                         </div>
-                        </form>
+
+                        </form:form>
+
                     </div>
                 </div>
             </div>

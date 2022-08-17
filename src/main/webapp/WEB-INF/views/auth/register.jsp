@@ -53,23 +53,19 @@
                         </a>
                         <h4>Sign Up</h4>
                     </div>
-<%--                    <form action="/auth/signup-result" method="post">--%>
                         <form:form modelAttribute="user" action="/auth/signup-result" method="post">
                         <div class="form-floating mb-3">
-<%--                        <input name="userName" class="form-control" id="floatingText" placeholder="username"/>--%>
                             <form:input path="userName" cssClass="form-control" id="floatingText" placeholder="username"/>
                             <form:errors path="userName" cssClass="error" cssStyle="color: #bc1212"/>
                             <label for="floatingText">Username</label>
                             <span id="userName.errors" class="errorName"></span>
                         </div>
                         <div class="form-floating mb-3">
-<%--                        <input name="email" class="form-control" id="floatingInput" placeholder="name@example.com"/>--%>
                             <form:input path="email" cssClass="form-control" id="floatingInput" placeholder="name@example.com"/>
                             <form:errors path="email" cssClass="error" cssStyle="color: #bc1212"/>
                             <label for="floatingInput">Email address</label>
                         </div>
                         <div class="form-floating mb-4">
-<%--                    <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="password"/>--%>
                         <form:input path="password" type="password" cssClass="form-control" id="floatingPassword" placeholder="password"/>
                         <form:errors path="password" cssClass="error" cssStyle="color: #bc1212"/>
                         <label for="floatingPassword">Password</label>
@@ -83,7 +79,6 @@
 
                         <p class="text-center mb-0">Already have an Account? <a href="/auth/signin">Sign In</a></p>
                         </form:form>
-<%--                    </form>--%>
                 </div>
             </div>
         </div>

@@ -98,9 +98,18 @@ public class AppController {
 
     @GetMapping("/character-creator-result")
     public String charCreatorResult(@Valid UserCharacter userCharacter, BindingResult result, ScoreIncrease scoreIncrease,
-                                    @RequestParam long userId, @RequestParam String featFour, @RequestParam String featEight){
+                                    @RequestParam long userId, @RequestParam String featFour, @RequestParam String featEight,
+                                    Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if (result.hasErrors()){
-            return "redirect:/app/character-creator/";
+                //TODO make method which will contain all model.addAttributes without userCharacter and call it here
+                // plus add userCharacter manually
+                User user = currentUser.getUser();
+                model.addAttribute("user", user.getId());
+                model.addAttribute("userName", user.getUserName());
+                model.addAttribute("Race", raceRepository.findAll());
+                model.addAttribute("Feats", featRepository.findAll());
+                model.addAttribute("Background", backgroundRepository.findAll());
+            return "/app/characterCreator";
         }
 
         User findUser = userRepository.findById(userId).get();
@@ -134,13 +143,11 @@ public class AppController {
         model.addAttribute("Feats", featRepository.findAll());
         model.addAttribute("Background", backgroundRepository.findAll());
         model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
-
         featsList = userCharacterRepository.findById(id).get().getFeats();
         model.addAttribute("characterFeatName", featsList.stream()
                 .map(e -> e.getFeatName()).toArray());
         model.addAttribute("characterFeatId", featsList.stream()
                 .map(e -> e.getId()).toArray());
-
         ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
         model.addAttribute("scoreIncrease", abilityIncrease);
 
@@ -149,11 +156,26 @@ public class AppController {
     @GetMapping("/character-editor-result")
     public String charEditResult(@Valid UserCharacter userCharacter, BindingResult result, ScoreIncrease newIncrease,
                                  @RequestParam long id, @RequestParam long userId, @RequestParam String featFour,
-                                 @RequestParam String featEight){
+                                 @RequestParam String featEight, Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if (result.hasErrors()) {
-            return "redirect:/app/character-editor/" + id;
-        }
+            //TODO make method which will contain all model.addAttributes without userCharacter and call it here
+            // plus add userCharacter manually
+            User user = currentUser.getUser();
+            model.addAttribute("userName", user.getUserName());
+            model.addAttribute("user", user.getId());
+            model.addAttribute("Race", raceRepository.findAll());
+            model.addAttribute("Feats", featRepository.findAll());
+            model.addAttribute("Background", backgroundRepository.findAll());
 
+            featsList = userCharacterRepository.findById(id).get().getFeats();
+            model.addAttribute("characterFeatName", featsList.stream()
+                    .map(e -> e.getFeatName()).toArray());
+            model.addAttribute("characterFeatId", featsList.stream()
+                    .map(e -> e.getId()).toArray());
+            ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
+            model.addAttribute("scoreIncrease", abilityIncrease);
+            return "/app/characterEditor";
+        }
         featsList = new ArrayList<>();
         if(featFour.isBlank() && featEight.isBlank()){
             userCharacter.setFeats(featsList);
