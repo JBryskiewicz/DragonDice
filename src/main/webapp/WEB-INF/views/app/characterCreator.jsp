@@ -12,8 +12,8 @@
 
                         <form:form modelAttribute="userCharacter" action="/app/character-creator-result" method="get">
 
-                            <p>NOTE: To create new character, name and age field must be filled. Anything else
-                            can be added later in edit window.</p>
+                            <p>NOTE: To create new character, name and age fields must be filled, additionally min age is 1.
+                                Anything else can be added later in edit window.</p>
                             <div class="bg-secondary rounded h-100 p-4"><h6>Select Ability Score</h6>
                                 <table class="table table-borderless">
                                     <thead>
@@ -338,7 +338,7 @@
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !character age input! -->
-                                <form:input path="charAge" cssClass="form-control" id="floatingInput" placeholder="Character Age"/>
+                                <form:input type="number" path="charAge" cssClass="form-control" id="floatingInput" placeholder="Character Age"/>
                                 <form:errors path="charAge" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingInput">Character Age</label>
                             </div>

@@ -3,6 +3,7 @@ package pl.coderslab.dragondice.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,6 +25,7 @@ public class Race {
     @NotBlank
     @Size(max = 500)
     private String raceFeatures;
+    @Min(0)
     @NotNull
     private int raceWalkingSpeed;
 

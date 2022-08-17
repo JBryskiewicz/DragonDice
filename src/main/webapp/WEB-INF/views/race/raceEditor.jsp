@@ -22,7 +22,7 @@
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !walking speed input! -->
-                                <form:input path="raceWalkingSpeed" cssClass="form-control" id="floatingInput"
+                                <form:input type="number" path="raceWalkingSpeed" cssClass="form-control" id="floatingInput"
                                             placeholder="Walking speed" value="${race.raceWalkingSpeed}"/>
                                 <form:errors path="raceWalkingSpeed" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingInput">Walking speed</label>

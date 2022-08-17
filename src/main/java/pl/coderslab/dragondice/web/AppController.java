@@ -76,22 +76,21 @@ public class AppController {
         model.addAttribute("wisMod", ModifiersDefiner.abilityModifier(abilityScoreSum.wisAbilityScore(id)));
         model.addAttribute("chaMod", ModifiersDefiner.abilityModifier(abilityScoreSum.chaAbilityScore(id)));
 
-        model.addAttribute("armorClass", baseTen + ModifiersDefiner.abilityModifier(abilityScoreSum.dexAbilityScore(id)));
+        model.addAttribute("armorClass", baseTen
+                + ModifiersDefiner.abilityModifier(abilityScoreSum.dexAbilityScore(id)));
 
-        model.addAttribute("passivePerception", baseTen + ModifiersDefiner.abilityModifier(abilityScoreSum.wisAbilityScore(id)));
-        model.addAttribute("passiveInvestigation", baseTen + ModifiersDefiner.abilityModifier(abilityScoreSum.intAbilityScore(id)));
-        model.addAttribute("passiveInsight", baseTen + ModifiersDefiner.abilityModifier(abilityScoreSum.wisAbilityScore(id)));
+        model.addAttribute("passivePerception", baseTen
+                + ModifiersDefiner.abilityModifier(abilityScoreSum.wisAbilityScore(id)));
+        model.addAttribute("passiveInvestigation", baseTen
+                + ModifiersDefiner.abilityModifier(abilityScoreSum.intAbilityScore(id)));
+        model.addAttribute("passiveInsight", baseTen
+                + ModifiersDefiner.abilityModifier(abilityScoreSum.wisAbilityScore(id)));
 
         return "/app/characterSheet";
     }
     @GetMapping("/character-creator")
     public String charCreator(Model model, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("user", user.getId());
-        model.addAttribute("userName", user.getUserName());
-        model.addAttribute("Race", raceRepository.findAll());
-        model.addAttribute("Feats", featRepository.findAll());
-        model.addAttribute("Background", backgroundRepository.findAll());
+        creatorAndEditorSupportMethod(model, currentUser);
         model.addAttribute("userCharacter", new UserCharacter());
         return "/app/characterCreator";
     }
@@ -101,32 +100,12 @@ public class AppController {
                                     @RequestParam long userId, @RequestParam String featFour, @RequestParam String featEight,
                                     Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if (result.hasErrors()){
-                //TODO make method which will contain all model.addAttributes without userCharacter and call it here
-                // plus add userCharacter manually
-                User user = currentUser.getUser();
-                model.addAttribute("user", user.getId());
-                model.addAttribute("userName", user.getUserName());
-                model.addAttribute("Race", raceRepository.findAll());
-                model.addAttribute("Feats", featRepository.findAll());
-                model.addAttribute("Background", backgroundRepository.findAll());
+            creatorAndEditorSupportMethod(model, currentUser);
             return "/app/characterCreator";
         }
-
         User findUser = userRepository.findById(userId).get();
-        featsList = new ArrayList<>();
-        if(featFour.isBlank() && featEight.isBlank()){
-            userCharacter.setFeats(featsList);
-        }else if(featEight.isBlank()){
-            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
-            userCharacter.setFeats(featsList);
-        }else if(featFour.isBlank()){
-            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
-            userCharacter.setFeats(featsList);
-        }else {
-            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
-            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
-            userCharacter.setFeats(featsList);
-        }
+        featsCheckSupportMethod(featFour, featEight, userCharacter);
+
         userCharacter.setUser(findUser);
         userCharacterService.saveUserCharacter(userCharacter);
         scoreIncrease.setUserCharacter(userCharacter);
@@ -136,21 +115,9 @@ public class AppController {
     }
     @GetMapping("/character-editor/{id}")
     public String charEdit(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
-        User user = currentUser.getUser();
-        model.addAttribute("userName", user.getUserName());
-        model.addAttribute("user", user.getId());
-        model.addAttribute("Race", raceRepository.findAll());
-        model.addAttribute("Feats", featRepository.findAll());
-        model.addAttribute("Background", backgroundRepository.findAll());
+        creatorAndEditorSupportMethod(model, currentUser);
         model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
-        featsList = userCharacterRepository.findById(id).get().getFeats();
-        model.addAttribute("characterFeatName", featsList.stream()
-                .map(e -> e.getFeatName()).toArray());
-        model.addAttribute("characterFeatId", featsList.stream()
-                .map(e -> e.getId()).toArray());
-        ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
-        model.addAttribute("scoreIncrease", abilityIncrease);
-
+        featsAndScoreIncreaseToViewSupportMethod(model, id);
         return "/app/characterEditor";
     }
     @GetMapping("/character-editor-result")
@@ -158,38 +125,11 @@ public class AppController {
                                  @RequestParam long id, @RequestParam long userId, @RequestParam String featFour,
                                  @RequestParam String featEight, Model model, @AuthenticationPrincipal CurrentUser currentUser){
         if (result.hasErrors()) {
-            //TODO make method which will contain all model.addAttributes without userCharacter and call it here
-            // plus add userCharacter manually
-            User user = currentUser.getUser();
-            model.addAttribute("userName", user.getUserName());
-            model.addAttribute("user", user.getId());
-            model.addAttribute("Race", raceRepository.findAll());
-            model.addAttribute("Feats", featRepository.findAll());
-            model.addAttribute("Background", backgroundRepository.findAll());
-
-            featsList = userCharacterRepository.findById(id).get().getFeats();
-            model.addAttribute("characterFeatName", featsList.stream()
-                    .map(e -> e.getFeatName()).toArray());
-            model.addAttribute("characterFeatId", featsList.stream()
-                    .map(e -> e.getId()).toArray());
-            ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
-            model.addAttribute("scoreIncrease", abilityIncrease);
+            creatorAndEditorSupportMethod(model, currentUser);
+            featsAndScoreIncreaseToViewSupportMethod(model, id);
             return "/app/characterEditor";
         }
-        featsList = new ArrayList<>();
-        if(featFour.isBlank() && featEight.isBlank()){
-            userCharacter.setFeats(featsList);
-        }else if(featEight.isBlank()){
-            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
-            userCharacter.setFeats(featsList);
-        }else if(featFour.isBlank()){
-            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
-            userCharacter.setFeats(featsList);
-        }else {
-            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
-            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
-            userCharacter.setFeats(featsList);
-        }
+        featsCheckSupportMethod(featFour, featEight, userCharacter);
 
         Optional<User> findingUser = userRepository.findById(userId);
         Optional<ScoreIncrease> existing = scoreIncreaseRepository.findByCharacterId(id);
@@ -203,7 +143,6 @@ public class AppController {
         scoreIncrease.setUserCharacter(userCharacter);
         scoreIncreaseService.editScoreIncrease(scoreIncrease);
         return "redirect:/app/select";
-
     }
     @GetMapping("/character-delete/{id}")
     public String charDelete(Model model, @PathVariable long id, @AuthenticationPrincipal CurrentUser currentUser){
@@ -212,7 +151,6 @@ public class AppController {
         model.addAttribute("userCharacter", userCharacterRepository.findById(id).get());
         return "/app/characterDelete";
     }
-
     /*Due to approach to this problem, character is being deleted as orphan of it's score increase. It should not cause
     any problems since every character must have their increases even if they are just 0s. It will be changed in the
     future during later developement for something more efficient. */
@@ -220,5 +158,41 @@ public class AppController {
     public String charDeleteResult(@PathVariable long id){
         scoreIncreaseService.deleteByUserCharacterId(id);
         return "redirect:/app/select";
+    }
+
+    /* ! Support methods for app controllers ! */
+
+    public void creatorAndEditorSupportMethod(Model model, @AuthenticationPrincipal CurrentUser currentUser){
+        User user = currentUser.getUser();
+        model.addAttribute("user", user.getId());
+        model.addAttribute("userName", user.getUserName());
+        model.addAttribute("Race", raceRepository.findAll());
+        model.addAttribute("Feats", featRepository.findAll());
+        model.addAttribute("Background", backgroundRepository.findAll());
+    }
+    public void featsAndScoreIncreaseToViewSupportMethod(Model model, long id){
+        featsList = userCharacterRepository.findById(id).get().getFeats();
+        model.addAttribute("characterFeatName", featsList.stream()
+                .map(e -> e.getFeatName()).toArray());
+        model.addAttribute("characterFeatId", featsList.stream()
+                .map(e -> e.getId()).toArray());
+        ScoreIncrease abilityIncrease = scoreIncreaseRepository.findByCharacterId(id).get();
+        model.addAttribute("scoreIncrease", abilityIncrease);
+    }
+    public void featsCheckSupportMethod(String featFour, String featEight, UserCharacter userCharacter){
+        featsList = new ArrayList<>();
+        if(featFour.isBlank() && featEight.isBlank()){
+            userCharacter.setFeats(featsList);
+        }else if(featEight.isBlank()){
+            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
+            userCharacter.setFeats(featsList);
+        }else if(featFour.isBlank()){
+            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
+            userCharacter.setFeats(featsList);
+        }else {
+            featsList.add(featRepository.findById(Long.parseLong(featEight)).get());
+            featsList.add(featRepository.findById(Long.parseLong(featFour)).get());
+            userCharacter.setFeats(featsList);
+        }
     }
 }

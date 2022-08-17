@@ -376,7 +376,7 @@
                             </div>
                             <div class="form-floating mb-3">
                                 <!-- !character age input! -->
-                                <form:input path="charAge" cssClass="form-control" id="floatingInput"
+                                <form:input type="number" path="charAge" cssClass="form-control" id="floatingInput"
                                             placeholder="Character Age" value="${userCharacter.charAge}"/>
                                 <form:errors path="charAge" cssClass="error" cssStyle="color: #bc1212"/>
                                 <label for="floatingInput">Character Age</label>

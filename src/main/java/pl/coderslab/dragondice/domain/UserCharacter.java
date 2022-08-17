@@ -1,6 +1,7 @@
 package pl.coderslab.dragondice.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;;
@@ -24,6 +25,7 @@ public class UserCharacter {
     private int charLevel;
     @NotBlank
     private String charName;
+    @Min(1)
     @NotNull
     private int charAge;
     private String charAlignment;
